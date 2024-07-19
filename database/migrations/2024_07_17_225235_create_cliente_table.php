@@ -12,36 +12,33 @@ return new class extends Migration {
     {
         Schema::create('cliente', function (Blueprint $table) {
             $table->id('idcliente');
-            $table->string('nome', 100);
-            $table->date('datanascimento');
             $table->string('cnpj', 14);
             $table->string('razaosocial', 100);
-            $table->string('cidade', 100);
-            $table->string('uf', 2);
-            $table->string('ddd', 2);
-            $table->string('telefone', 11);
-            $table->string('fone1', 11);
-            $table->string('fone2', 11);
-            $table->string('celular', 11);
-            $table->string('email', 100);
-            $table->string('email2', 100);
-            $table->text('observacoes');
-            $table->string('cnpjagrupador', 14);
+            $table->string('nome', 100)->nullable();
+            $table->date('datanascimento')->nullable();
+            $table->string('cidade', 100)->nullable();
+            $table->string('uf', 2)->nullable();
+            $table->string('ddd', 2)->nullable();
+            $table->string('telefone', 11)->nullable();
+            $table->string('fone1', 11)->nullable();
+            $table->string('fone2', 11)->nullable();
+            $table->string('celular', 11)->nullable();
+            $table->string('email', 100)->nullable();
+            $table->string('email2', 100)->nullable();
+            $table->text('observacoes')->nullable();
+            $table->text('cnpjagrupador')->nullable();
+            $table->text('streetview')->nullable();
             $table->integer('numeroloja')->default(0);
             $table->integer('numerovendedor')->default(0);
-            $table->text('streetview');
-            $table->float('limitecredito', 10);
-            $table->boolean('enviaemail')->default(true);
+            $table->float('limitecredito', 10)->default(0.0);
+            $table->boolean('enviaremail')->default(false);
             $table->boolean('possuidividapendente')->default(false);
-            $table->boolean('possuicompra')->default(true);
+            $table->boolean('possuicompra')->default(false);
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('cliente');
