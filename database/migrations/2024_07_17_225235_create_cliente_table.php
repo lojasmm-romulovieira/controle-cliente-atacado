@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('cliente', function (Blueprint $table) {
             $table->id('idcliente');
             $table->string('cnpj', 14);
+            $table->foreignId('idclassificacao')->constrained('classificacao', 'idclassificacao');
             $table->string('razaosocial', 100);
             $table->string('nome', 100)->nullable();
             $table->date('datanascimento')->nullable();

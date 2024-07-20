@@ -11,7 +11,9 @@ class ClienteRequest extends FormRequest
         return [
             'cnpj' => ['required', 'string'],
             'razaosocial' => ['required', 'string'],
-
+            'ramos'=> ['nullable', 'array'],
+            'ramo.*.idramo' => ['required_with:ramos', 'integer'],
+            'idclassificacao' => ['nullable', 'integer'],
             'nome' => ['nullable', 'string'],
             'datanascimento' => ['nullable', 'date_format:Y-m-d', 'before:today'],
             'cidade' => ['nullable', 'string'],
@@ -41,6 +43,10 @@ class ClienteRequest extends FormRequest
         return [
             'cnpj.required' => 'Necessário fornecer campo cnpj',
             'razaosocial.required' => 'Necessário fornecer campo razão social',
+            'ramos.array' => 'Campo ramos inválido (array)',
+            'ramo.*.idramo.required_with' => 'Campo idramo inválido (required_with:ramos)',
+            'ramo.*.idramo.integer' => 'Campo idramo inválido (integer)',
+            'idclassificacao.integer' => 'Campo idclassificacao inválido (integer)',
 
             'nome.string' => 'Campo nome inválido (string)',
             'datanascimento.date' => 'Campo data de nascimento inválido (date)',

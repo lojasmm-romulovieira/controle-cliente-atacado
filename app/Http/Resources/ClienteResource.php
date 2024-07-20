@@ -9,10 +9,22 @@ class ClienteResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $ramos = $this->ramos->map(function ($ramo) {
+            return [
+                'id' => $ramo->idramo,
+                'descricao' => $ramo->descricao
+            ];
+        });
+
         return [
             'id' => $this->idcliente,
             'cnpj' => $this->cnpj,
             'razaosocial' => $this->razaosocial,
+            'ramos' => $ramos,
+            'classificacao' => [
+                'id' => $this->classificacao->idclassificacao,
+                'descricao' => $this->classificacao->descricao
+            ],
             'nome' => $this->nome,
             'datanascimento' => $this->datanascimento,
             'cidade' => $this->cidade,

@@ -2,11 +2,15 @@
 
 namespace App\DTO;
 
+use App\Models\ClassificacaoModel;
+
 class ClienteDTO
 {
     public function __construct(
         public string  $cnpj,
         public string  $razaosocial,
+        public array   $ramos,
+        public int     $idclassificacao,
         public int     $numeroloja,
         public int     $numerovendedor,
         public float   $limitecredito,
@@ -39,6 +43,8 @@ class ClienteDTO
         return new ClienteDTO(
             cnpj: $data->get('cnpj'),
             razaosocial: $data->get('razaosocial'),
+            ramos: $data->get('ramos') ?? [],
+            idclassificacao: $data->get('idclassificacao') ?? ClassificacaoModel::BRONZE,
             numeroloja: $data->get('numeroloja') ?? 0,
             numerovendedor: $data->get('numerovendedor') ?? 0,
             limitecredito: $data->get('limitecredito') ?? 0,

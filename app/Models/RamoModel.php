@@ -11,4 +11,11 @@ class RamoModel extends Model
     protected $table = 'ramo';
     protected $primaryKey = 'idramo';
     protected $fillable = ['descricao'];
+
+    public function clientes()
+    {
+        return $this->belongsToMany(ClienteModel::class, 'ramocliente', 'idramo', 'idcliente')
+            ->withPivot('idramocliente')
+            ->withTimestamps();
+    }
 }

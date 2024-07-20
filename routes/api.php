@@ -15,6 +15,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('cliente')->group(function () {
+        Route::get('/index', [ClienteController::class, 'index'])->name('clientes.index');
         Route::post('/store', [ClienteController::class, 'store'])->name('clientes.store');
     });
 });

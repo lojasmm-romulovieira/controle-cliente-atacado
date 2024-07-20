@@ -20,9 +20,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
         //
     })
-    ->withMiddleware(function (Middleware $middleware) {
-        $middleware->statefulApi();
-    })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (AuthenticationException $e) {
             return response(['message' => 'Não autenticado.'], 401);

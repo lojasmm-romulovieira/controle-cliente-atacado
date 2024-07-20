@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\QueryStringFilterable;
 use App\Utils\DBUtils;
 use Illuminate\Database\Eloquent\Model;
 
 class ClienteModel extends Model
 {
+    use QueryStringFilterable;
+
     protected $connection = DBUtils::MYSQL->name;
     protected $table = 'cliente';
     protected $primaryKey = 'idcliente';
@@ -16,6 +19,7 @@ class ClienteModel extends Model
         'datanascimento',
         'cnpj',
         'razaosocial',
+        'idclassificacao',
         'cidade',
         'uf',
         'ddd',
@@ -36,4 +40,16 @@ class ClienteModel extends Model
         'possuicompra',
         'ativo'
     ];
+
+    public function ramos()
+    {
+        return $this->belongsToMany(RamoModel::class, 'ramocliente', 'idcliente', 'idramo')
+            ->withPivot('idramocliente')
+            ->withTimestamps();
+    }
+
+    public function classificacao()
+    {
+        return $this->belongsTo(ClassificacaoModel::class, 'idclassificacao', 'idclassificacao');
+    }
 }
