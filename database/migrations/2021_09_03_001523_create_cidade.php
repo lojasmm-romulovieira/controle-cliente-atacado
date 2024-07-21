@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Estado;
 use App\Utils\DBUtils;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -11,19 +10,19 @@ return new class extends Migration {
 
     public function up(): void
     {
-        Schema::create('cidades', function (Blueprint $table) {
-            $table->id();
-            $table->integer('cidade_id')->unsigned();
-            $table->foreignIdFor(Estado::class)->constrained();
+        Schema::create('cidade', function (Blueprint $table) {
+            $table->id('idcidade');
+            $table->foreignId('idestado')->constrained('estado', 'idestado');
             $table->string('nome', 191);
+            $table->index('idcidade');
         });
     }
 
     public function down(): void
     {
-        Schema::table('cidades', function (Blueprint $table) {
-            $table->dropForeign(['estado_id']);
+        Schema::table('cidade', function (Blueprint $table) {
+            $table->dropForeign(['idestado']);
         });
-        Schema::dropIfExists('cidades');
+        Schema::dropIfExists('cidade');
     }
 };

@@ -19,6 +19,7 @@ return new class extends Migration {
 
     public function down(): void
     {
+        Schema::dropIfExists('cliente');
         Schema::dropIfExists('classificacao');
     }
 };

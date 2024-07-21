@@ -14,11 +14,10 @@ return new class extends Migration {
             $table->id('idcliente');
             $table->string('cnpj', 14);
             $table->foreignId('idclassificacao')->constrained('classificacao', 'idclassificacao');
+            $table->foreignId('idcidade')->nullable()->constrained('cidade', 'idcidade');
             $table->string('razaosocial', 100);
             $table->string('nome', 100)->nullable();
             $table->date('datanascimento')->nullable();
-            $table->string('cidade', 100)->nullable();
-            $table->string('uf', 2)->nullable();
             $table->string('ddd', 2)->nullable();
             $table->string('telefone', 11)->nullable();
             $table->string('fone1', 11)->nullable();

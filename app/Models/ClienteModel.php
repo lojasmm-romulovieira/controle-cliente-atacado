@@ -20,8 +20,7 @@ class ClienteModel extends Model
         'cnpj',
         'razaosocial',
         'idclassificacao',
-        'cidade',
-        'uf',
+        'idcidade',
         'ddd',
         'telefone',
         'fone1',
@@ -51,5 +50,10 @@ class ClienteModel extends Model
     public function classificacao()
     {
         return $this->belongsTo(ClassificacaoModel::class, 'idclassificacao', 'idclassificacao');
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo(Cidade::class, 'idcidade', 'idcidade');
     }
 }

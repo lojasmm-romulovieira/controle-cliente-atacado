@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use App\Utils\DBUtils;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Estado extends Model
 {
+    protected $connection = DBUtils::MYSQL->name;
+    protected $table = 'estado';
+    protected $primaryKey = 'idestado';
+
     protected $fillable = [
         'nome',
         'uf'
@@ -14,6 +19,6 @@ class Estado extends Model
 
     public function Cidade(): HasMany
     {
-        return $this->hasMany(Cidade::class, 'estado_id');
+        return $this->hasMany(Cidade::class, 'idestado');
     }
 }

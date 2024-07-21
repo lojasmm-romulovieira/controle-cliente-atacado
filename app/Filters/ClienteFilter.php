@@ -4,9 +4,13 @@ namespace App\Filters;
 
 class ClienteFilter extends AbstractFilter
 {
-    public function uf(string $uf): void
+    public function idestado(string $idestado): void
     {
-        $this->builder->where('uf', $uf);
+        $this->builder->whereHas('cidade', function ($query) use ($idestado) {
+            $query->whereHas('estado', function ($query) use ($idestado) {
+                $query->where('idestado', $idestado);
+            });
+        });
     }
 
     public function sememail(string $sememail): void

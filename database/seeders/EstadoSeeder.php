@@ -11,142 +11,142 @@ class EstadoSeeder extends Seeder
     {
         $estados = [
             [
-                "id" => 11,
+                "idestado" => 11,
                 "uf" => "RO",
                 "nome" => "Rondônia",
             ],
             [
-                "id" => 12,
+                "idestado" => 12,
                 "uf" => "AC",
                 "nome" => "Acre",
             ],
             [
-                "id" => 13,
+                "idestado" => 13,
                 "uf" => "AM",
                 "nome" => "Amazonas",
             ],
             [
-                "id" => 14,
+                "idestado" => 14,
                 "uf" => "RR",
                 "nome" => "Roraima",
             ],
             [
-                "id" => 15,
+                "idestado" => 15,
                 "uf" => "PA",
                 "nome" => "Pará",
             ],
             [
-                "id" => 16,
+                "idestado" => 16,
                 "uf" => "AP",
                 "nome" => "Amapá",
             ],
             [
-                "id" => 17,
+                "idestado" => 17,
                 "uf" => "TO",
                 "nome" => "Tocantins",
             ],
             [
-                "id" => 21,
+                "idestado" => 21,
                 "uf" => "MA",
                 "nome" => "Maranhão",
             ],
             [
-                "id" => 22,
+                "idestado" => 22,
                 "uf" => "PI",
                 "nome" => "Piauí",
             ],
             [
-                "id" => 23,
+                "idestado" => 23,
                 "uf" => "CE",
                 "nome" => "Ceará",
             ],
             [
-                "id" => 24,
+                "idestado" => 24,
                 "uf" => "RN",
                 "nome" => "Rio Grande do Norte",
             ],
             [
-                "id" => 25,
+                "idestado" => 25,
                 "uf" => "PB",
                 "nome" => "Paraíba",
             ],
             [
-                "id" => 26,
+                "idestado" => 26,
                 "uf" => "PE",
                 "nome" => "Pernambuco",
             ],
             [
-                "id" => 27,
+                "idestado" => 27,
                 "uf" => "AL",
                 "nome" => "Alagoas",
             ],
             [
-                "id" => 28,
+                "idestado" => 28,
                 "uf" => "SE",
                 "nome" => "Sergipe",
             ],
             [
-                "id" => 29,
+                "idestado" => 29,
                 "uf" => "BA",
                 "nome" => "Bahia",
             ],
             [
-                "id" => 31,
+                "idestado" => 31,
                 "uf" => "MG",
                 "nome" => "Minas Gerais",
             ],
             [
-                "id" => 32,
+                "idestado" => 32,
                 "uf" => "ES",
                 "nome" => "Espírito Santo",
             ],
             [
-                "id" => 33,
+                "idestado" => 33,
                 "uf" => "RJ",
                 "nome" => "Rio de Janeiro",
             ],
             [
-                "id" => 35,
+                "idestado" => 35,
                 "uf" => "SP",
                 "nome" => "São Paulo",
             ],
             [
-                "id" => 41,
+                "idestado" => 41,
                 "uf" => "PR",
                 "nome" => "Paraná",
             ],
             [
-                "id" => 42,
+                "idestado" => 42,
                 "uf" => "SC",
                 "nome" => "Santa Catarina",
             ],
             [
-                "id" => 43,
+                "idestado" => 43,
                 "uf" => "RS",
                 "nome" => "Rio Grande do Sul",
             ],
             [
-                "id" => 50,
+                "idestado" => 50,
                 "uf" => "MS",
                 "nome" => "Mato Grosso do Sul",
             ],
             [
-                "id" => 51,
+                "idestado" => 51,
                 "uf" => "MT",
                 "nome" => "Mato Grosso",
             ],
             [
-                "id" => 52,
+                "idestado" => 52,
                 "uf" => "GO",
                 "nome" => "Goiás",
             ],
             [
-                "id" => 53,
+                "idestado" => 53,
                 "uf" => "DF",
                 "nome" => "Distrito Federal",
             ],
         ];
-        DB::table('estados')->insert($estados);
+        DB::table('estado')->insert($estados);
 
     }
 }

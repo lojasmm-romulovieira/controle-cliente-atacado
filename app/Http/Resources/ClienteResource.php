@@ -25,9 +25,17 @@ class ClienteResource extends JsonResource
                 'id' => $this->classificacao->idclassificacao,
                 'descricao' => $this->classificacao->descricao
             ],
+            'cidade' => [
+                'id' => $this->cidade->idcidade,
+                'nome' => $this->cidade->nome,
+                'estado' => [
+                    'id' => $this->cidade->estado->idestado,
+                    'nome' => $this->cidade->estado->nome,
+                    'uf' => $this->cidade->estado->uf
+                ]
+            ],
             'nome' => $this->nome,
             'datanascimento' => $this->datanascimento,
-            'cidade' => $this->cidade,
             'uf' => $this->uf,
             'ddd' => $this->ddd,
             'telefone' => $this->telefone,

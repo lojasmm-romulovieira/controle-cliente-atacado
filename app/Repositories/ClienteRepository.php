@@ -12,12 +12,17 @@ class ClienteRepository
     public function getAll(ClienteFilter $filter): LengthAwarePaginator
     {
         $clientes = ClienteModel::filter($filter)
-            ->with(['ramos:idramo,descricao', 'classificacao:idclassificacao,descricao'])
+            ->with([
+                'ramos:idramo,descricao',
+                'classificacao:idclassificacao,descricao',
+                'cidade:idcidade,nome,idestado',
+                'cidade.estado:idestado,nome,uf'
+            ])
             ->paginate(5)
             ->withQueryString();
 
-        $clientes->each(function($cliente) {
-            $cliente->ramos->each(function($ramo) {
+        $clientes->each(function ($cliente) {
+            $cliente->ramos->each(function ($ramo) {
                 $ramo->makeHidden('pivot');
             });
         });
