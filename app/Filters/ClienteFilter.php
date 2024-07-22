@@ -120,4 +120,11 @@ class ClienteFilter extends AbstractFilter
                 ->whereNull('email');
         }
     }
+
+    public function aniversariantesMes(string $filtrar): void
+    {
+        if ($filtrar === 'true') {
+            $this->builder->whereMonth('datanascimento', now()->month);
+        }
+    }
 }

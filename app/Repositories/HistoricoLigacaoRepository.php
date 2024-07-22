@@ -11,4 +11,9 @@ class HistoricoLigacaoRepository
     {
         return HistoricoLigacaoModel::create((array)$historicoLigacaoDTO);
     }
+
+    public function destroy(HistoricoLigacaoModel $historicoLigacao): void
+    {
+        $historicoLigacao->delete();
+    }
 }

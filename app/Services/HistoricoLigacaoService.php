@@ -16,4 +16,9 @@ class HistoricoLigacaoService
     {
         return $this->repository->create($historicoLigacaoDTO);
     }
+
+    public function destroy(HistoricoLigacaoModel $historicoLigacao): void
+    {
+        $this->repository->destroy($historicoLigacao);
+    }
 }

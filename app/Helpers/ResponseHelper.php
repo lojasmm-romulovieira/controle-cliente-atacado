@@ -13,4 +13,11 @@ class ResponseHelper
             'message' => $message,
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+
+    public static function respondWithNotFound(string $message): JsonResponse
+    {
+        return response()->json([
+            'message' => $message,
+        ], Response::HTTP_NOT_FOUND);
+    }
 }

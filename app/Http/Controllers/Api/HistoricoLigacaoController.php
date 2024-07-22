@@ -7,6 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\HistoricoLigacaoRequest;
 use App\Http\Resources\HistoricoLigacaoResource;
+use App\Models\HistoricoLigacaoModel;
 use App\Services\HistoricoLigacaoService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -30,6 +31,21 @@ class HistoricoLigacaoController extends Controller
                 ->setStatusCode(Response::HTTP_CREATED);
         } catch (Exception $e) {
             return ResponseHelper::respondWithInternalError('Falha ao salvar histórico de ligação.');
+        }
+    }
+
+    public function destroy(HistoricoLigacaoModel $historicoLigacao): JsonResponse
+    {
+        try {
+            if (!$historicoLigacao->exists) {
+                return ResponseHelper::respondWithNotFound('Histórico de ligação não encontrado.');
+            }
+
+            $this->service->destroy($historicoLigacao);
+
+            return response()->json(['message' => 'Histórico de ligação deletado com sucesso.']);
+        } catch (Exception $e) {
+            return ResponseHelper::respondWithInternalError('Falha ao deletar histórico de ligação.');
         }
     }
 }
