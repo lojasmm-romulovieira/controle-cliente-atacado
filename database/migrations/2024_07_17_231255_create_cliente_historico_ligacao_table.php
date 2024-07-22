@@ -10,7 +10,7 @@ return new class extends Migration {
 
     public function up(): void
     {
-        Schema::create('clientehistoricoligacao', function (Blueprint $table) {
+        Schema::create('historicoligacao', function (Blueprint $table) {
             $table->id('idhistoricoligacao');
             $table->foreignId('idcliente')->constrained('cliente', 'idcliente');
             $table->boolean('fezligacao')->default(false);
