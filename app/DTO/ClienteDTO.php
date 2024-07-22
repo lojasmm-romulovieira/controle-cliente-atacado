@@ -43,7 +43,7 @@ class ClienteDTO
             cnpj: $data->get('cnpj'),
             razaosocial: $data->get('razaosocial'),
             ramos: $data->get('ramos') ?? [],
-            idclassificacao: $data->get('idclassificacao') ?? ClassificacaoModel::BRONZE,
+            idclassificacao: $data->get('idclassificacao') ?? ClassificacaoModel::EM_PROSPECCAO,
             numeroloja: $data->get('numeroloja') ?? 0,
             numerovendedor: $data->get('numerovendedor') ?? 0,
             limitecredito: $data->get('limitecredito') ?? 0,

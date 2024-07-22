@@ -18,11 +18,6 @@ class HistoricoLigacaoController extends Controller
     {
     }
 
-    public function index(): JsonResponse
-    {
-
-    }
-
     public function store(HistoricoLigacaoRequest $request): JsonResponse
     {
         try {

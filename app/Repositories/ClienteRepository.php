@@ -16,7 +16,8 @@ class ClienteRepository
                 'ramos:idramo,descricao',
                 'classificacao:idclassificacao,descricao',
                 'cidade:idcidade,nome,idestado',
-                'cidade.estado:idestado,nome,uf'
+                'cidade.estado:idestado,nome,uf',
+                'historicoLigacao:idhistoricoligacao,idcliente,observacao,fezpedido,fezligacao,atendeuligacao'
             ])
             ->paginate(5)
             ->withQueryString();

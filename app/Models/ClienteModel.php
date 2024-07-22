@@ -56,4 +56,9 @@ class ClienteModel extends Model
     {
         return $this->belongsTo(Cidade::class, 'idcidade', 'idcidade');
     }
+
+    public function historicoligacao()
+    {
+        return $this->hasMany(HistoricoLigacaoModel::class, 'idcliente', 'idcliente');
+    }
 }

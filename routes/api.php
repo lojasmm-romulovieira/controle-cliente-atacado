@@ -21,7 +21,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('historico/ligacao')->group(function () {
-        Route::get('/index', [HistoricoLigacaoController::class, 'index'])->name('historico.ligacao.index');
         Route::post('/store', [HistoricoLigacaoController::class, 'store'])->name('historico.ligacao.store');
     });
 });
