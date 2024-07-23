@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassificacaoModel extends Model
 {
-    public const BRONZE = 1;
-    public const EM_PROSPECCAO = 6;
+    public const A = 1;
+    public const B = 2;
+    public const C = 3;
+    public const EM_PROSPECCAO = 4;
 
     protected $connection = DBUtils::MYSQL->name;
     protected $table = 'classificacao';

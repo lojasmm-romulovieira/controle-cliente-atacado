@@ -40,6 +40,11 @@ class ClienteModel extends Model
         'ativo'
     ];
 
+    protected $appends = [
+        'ult_venda',
+        'ult_lig'
+    ];
+
     public function ramos()
     {
         return $this->belongsToMany(RamoModel::class, 'ramocliente', 'idcliente', 'idramo')
@@ -60,5 +65,24 @@ class ClienteModel extends Model
     public function historicoligacao()
     {
         return $this->hasMany(HistoricoLigacaoModel::class, 'idcliente', 'idcliente');
+    }
+
+    public function usuariocliente()
+    {
+        return $this->belongsToMany(User::class, 'usuariocliente', 'idcliente', 'idusuario')
+            ->withPivot('idusuariocliente')
+            ->withTimestamps();
+    }
+
+    public function getUltVendaAttribute()
+    {
+       return $this->historicoligacao->where('fezpedido', true)
+            ->sortByDesc('created_at')->first();
+    }
+
+    public function getUltLigAttribute()
+    {
+        return $this->historicoligacao->where('fezligacao', true)
+            ->sortByDesc('created_at')->first();
     }
 }

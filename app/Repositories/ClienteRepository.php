@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\ClienteDTO;
 use App\Filters\ClienteFilter;
 use App\Models\ClienteModel;
+use App\Models\UsuarioClienteModel;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClienteRepository
@@ -17,14 +18,22 @@ class ClienteRepository
                 'classificacao:idclassificacao,descricao',
                 'cidade:idcidade,nome,idestado',
                 'cidade.estado:idestado,nome,uf',
-                'historicoLigacao:idhistoricoligacao,idcliente,observacao,fezpedido,fezligacao,atendeuligacao'
+                'historicoligacao:idhistoricoligacao,idcliente,observacao,fezpedido,fezligacao,atendeuligacao,created_at',
+                'usuariocliente:id,name,email'
             ])
-            ->paginate(5)
+            ->whereHas('usuariocliente', function ($query) {
+                $query->where('idusuario', auth()->id());
+            })
+            ->paginate(10)
             ->withQueryString();
 
         $clientes->each(function ($cliente) {
             $cliente->ramos->each(function ($ramo) {
                 $ramo->makeHidden('pivot');
+            });
+
+            $cliente->usuariocliente->each(function ($usuario) {
+                $usuario->makeHidden('pivot');
             });
         });
 
@@ -36,6 +45,10 @@ class ClienteRepository
         $cliente = ClienteModel::create((array)$clienteDTO);
 
         $cliente->ramos()->sync($clienteDTO->ramos);
+        UsuarioClienteModel::create([
+            'idcliente' => $cliente->idcliente,
+            'idusuario' => auth()->id()
+        ]);
 
         return $cliente;
     }
