@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('cliente')->group(function () {
         Route::get('/index', [ClienteControllerWeb::class, 'index'])->name('web.cliente.index');
+        Route::get('/create', [ClienteControllerWeb::class, 'create'])->name('web.cliente.create');
     });
 });
 

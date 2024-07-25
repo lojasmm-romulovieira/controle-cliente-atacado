@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use App\Filters\ClienteFilter;
 use App\Http\Controllers\Controller;
+use App\Models\CidadeModel;
+use App\Models\ClassificacaoModel;
 use App\Models\EstadoModel;
+use App\Models\PerfilModel;
 use App\Models\RamoModel;
 use App\Services\ClienteService;
 use Illuminate\Http\RedirectResponse;
@@ -33,11 +36,19 @@ class ClienteControllerWeb extends Controller
                 'label' => 'Inativo'
             ]
         ];
+        $cidadesOptions = CidadeModel::selectRaw('idcidade as value, CONCAT(cidade.nome, " - ", estado.uf) as label')
+            ->join('estado', 'estado.idestado', '=', 'cidade.idestado')
+            ->get();
+        $classificacoesOptions = ClassificacaoModel::selectRaw('idclassificacao as value, descricao as label')->get();
+        $perfisOptions = PerfilModel::selectRaw('idperfil as value, descricao as label')->get();
 
         return compact(
             'estadosOptions',
             'ramosOptions',
-            'situacoesUsuariosOptions'
+            'situacoesUsuariosOptions',
+            'cidadesOptions',
+            'classificacoesOptions',
+            'perfisOptions'
         );
     }
 
@@ -51,6 +62,22 @@ class ClienteControllerWeb extends Controller
             return Inertia::render('Cliente/ClienteIndex', compact(
                 'clientes',
                 'filters',
+                'filtersOptions'
+            ));
+        } catch (Throwable $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Falha ao carregar página. Tente novamente.');
+        }
+    }
+
+    public function create(): Response|RedirectResponse
+    {
+        try {
+            $filtersOptions = $this->filtersOptions();
+
+            return Inertia::render('Cliente/ClienteCreate', compact(
                 'filtersOptions'
             ));
         } catch (Throwable $e) {
