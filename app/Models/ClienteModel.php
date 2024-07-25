@@ -59,7 +59,7 @@ class ClienteModel extends Model
 
     public function cidade()
     {
-        return $this->belongsTo(Cidade::class, 'idcidade', 'idcidade');
+        return $this->belongsTo(CidadeModel::class, 'idcidade', 'idcidade');
     }
 
     public function historicoligacao()

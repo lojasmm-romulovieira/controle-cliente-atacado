@@ -27,7 +27,6 @@ class ClienteController extends Controller
 
             return response()->json($clientes->toArray());
         } catch (Throwable $e) {
-            dd($e);
             return ResponseHelper::respondWithInternalError('Erro ao buscar clientes.');
         }
     }

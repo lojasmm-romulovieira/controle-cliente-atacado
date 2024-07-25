@@ -15,6 +15,13 @@ class ClienteFilter extends AbstractFilter
         });
     }
 
+    public function estados(array $estados): void
+    {
+        $this->builder->whereHas('cidade', function ($query) use ($estados) {
+            $query->whereIn('idestado', $estados);
+        });
+    }
+
     public function somenteClientesSemEmail(string $sememail): void
     {
         if ($sememail === "true") {
@@ -25,9 +32,9 @@ class ClienteFilter extends AbstractFilter
         $this->builder->whereNotNull('email');
     }
 
-    public function ativo(string $ativo): void
+    public function ativos(array $situacoes): void
     {
-        $this->builder->where('ativo', strtolower($ativo === 'true'));
+        $this->builder->where('ativo', $situacoes);
     }
 
     public function ramos(array $ramos): void

@@ -120,11 +120,10 @@ export default function Authenticated({user, header, children}) {
             )}
 
             <main>
-                <div className={'container mx-auto px-4 sm:px-6 lg:px-8 py-8'}>
+                <div className={'container max-w-none px-4 sm:px-6 lg:px-8 py-8'}>
                     {children}
                 </div>
             </main>
-
         </div>
     );
 }

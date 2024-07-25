@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\DefaultOrderByScope;
 use App\Utils\DBUtils;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Estado extends Model
+class EstadoModel extends Model
 {
     protected $connection = DBUtils::MYSQL->name;
     protected $table = 'estado';
@@ -17,8 +18,13 @@ class Estado extends Model
         'uf'
     ];
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new DefaultOrderByScope('nome'));
+    }
+
     public function Cidade(): HasMany
     {
-        return $this->hasMany(Cidade::class, 'idestado');
+        return $this->hasMany(CidadeModel::class, 'idestado');
     }
 }

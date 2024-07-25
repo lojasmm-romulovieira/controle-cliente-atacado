@@ -6,7 +6,7 @@ use App\Utils\DBUtils;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Cidade extends Model
+class CidadeModel extends Model
 {
     protected $connection = DBUtils::MYSQL->name;
     protected $table = 'cidade';
@@ -19,6 +19,6 @@ class Cidade extends Model
 
     public function Estado(): BelongsTo
     {
-        return $this->belongsTo(Estado::class, 'idestado');
+        return $this->belongsTo(EstadoModel::class, 'idestado');
     }
 }

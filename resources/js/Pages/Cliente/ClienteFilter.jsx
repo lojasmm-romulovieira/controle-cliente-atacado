@@ -1,35 +1,87 @@
-import {Button, Label, Select} from "flowbite-react";
-import {FaPlus} from "react-icons/fa6";
+import {Button, Label} from "flowbite-react";
+import {useForm} from "@inertiajs/react";
+import {useEffect} from "react";
+import Select from "@/Components/Inputs/Select.jsx";
 
-export function ClienteFilter() {
+export function ClienteFilter(props) {
+    const {filtersOptions, filters} = props;
+
+    const {get, setData, data} = useForm({
+        ramos: [],
+        estados: [],
+        ativos: [],
+    });
+
+    useEffect(() => {
+        if (!Array.isArray(filters)) {
+            const {ramos, estados, ativos} = filters;
+
+            data.ramos = ramos ?? [];
+            data.estados = estados ?? [];
+            data.ativos = ativos ?? [];
+
+            setData('ramos', ramos);
+        }
+    }, [filters]);
+
+    const handlerSubmit = (e) => {
+        e.preventDefault();
+
+        get(route('web.cliente.index'));
+    }
+
     return (
         <>
-            <div className="flex flex-wrap pb-10">
-                <Button className="m-1 bg-blue-400" href={route('web.cliente.index')}>Todos</Button>
-                <Button className="m-1 bg-green-600"
-                        href={route('web.cliente.index', {somenteClientesComClassificacaoA: 'true'})}>Somente clientes
-                    A</Button>
-                <Button className="m-1 bg-yellow-500"
-                        href={route('web.cliente.index', {somenteClientesComClassificacaoB: 'true'})}>Somente clientes
-                    B</Button>
-                <Button className="m-1 bg-red-600"
-                        href={route('web.cliente.index', {somenteClientesComClassificacaoC: 'true'})}>Somente clientes
-                    C</Button>
-                <Button className="m-1 bg-blue-600"
-                        href={route('web.cliente.index', {somenteClientesComClassificacaoEmProspeccao: 'true'})}>Somente
-                    clientes em prospecção</Button>
-                <Button className="m-1 bg-gray-600"
-                        href={route('web.cliente.index', {somenteClientesSemEmail: 'true'})}>Somente clientes sem
-                    email</Button>
+            <div className="flex flex-wrap mb-4">
+                <form className="w-full flex flex-wrap gap-4" onSubmit={handlerSubmit}>
+                    <div className="flex-grow">
+                        <div className="mb-2 block">
+                            <Label value="Perfil"/>
+                        </div>
+                        <Select
+                            rawOptions={filtersOptions.ramosOptions}
+                            labelKey="label"
+                            valueKey="value"
+                            isMulti
+                            value={data.ramos}
+                            onChange={e => setData('ramos', e.target.value)}
+                        />
+                    </div>
+                    <div className="flex-grow">
+                        <div className="mb-2 block">
+                            <Label value="Estado"/>
+                        </div>
+                        <Select
+                            rawOptions={filtersOptions.estadosOptions}
+                            labelKey="label"
+                            valueKey="value"
+                            isMulti
+                            value={data.estados}
+                            onChange={e => setData('estados', e.target.value)}
+                        />
+                    </div>
+                    <div className="flex-grow mb">
+                        <div className="mb-2 block">
+                            <Label value="Situação Usuário"/>
+                        </div>
+                        <Select
+                            rawOptions={filtersOptions.situacoesUsuariosOptions}
+                            labelKey="label"
+                            valueKey="value"
+                            isMulti
+                            value={data.ativos}
+                            onChange={e => setData('ativos', e.target.value)}
+                        />
+                    </div>
 
-                <Button className="m-1 bg-blue-700 ml-auto flex items-center justify-center">
-                    <FaPlus className="mr-2 flex-shrink-0" size={20}/>
-                    <span className="flex-grow">Novo Cliente</span>
-                </Button>
+                    <div className="flex-grow-0">
+                        <Button className="bg-blue-700 mt-8" type='submit'>Pesquisar</Button>
+                    </div>
 
+                </form>
             </div>
 
-            <div className="flex flex-wrap pb-3">
+            <div className="flex flex-wrap mb-4">
                 <a href={route('web.cliente.index', {ultimos30DiasComPedido: 'true'})}
                    className="font-medium text-green-600 hover:underline p-2 flex-grow text-center">01-30 dias Com
                     Compra /</a>
@@ -53,37 +105,23 @@ export function ClienteFilter() {
                     E-MAIL /</a>
             </div>
 
-            <div className="flex flex-wrap gap-4 pb-10">
-                <form className="w-full flex flex-wrap gap-4">
-                    <div className="flex-1 min-w-[200px]">
-                        <div className="mb-2 block">
-                            <Label value="Perfil"/>
-                        </div>
-                        <Select id="idramo" required>
-                            <option>Lojista</option>
-                            <option>Prospecção</option>
-                            <option>Uso/Consumo</option>
-                        </Select>
-                    </div>
-                    <div className="flex-1 min-w-[200px]">
-                        <div className="mb-2 block">
-                            <Label value="Estado"/>
-                        </div>
-                        <Select id="idestado" required>
-                            <option>PR</option>
-                            <option>SC</option>
-                        </Select>
-                    </div>
-                    <div className="flex-1 min-w-[200px]">
-                        <div className="mb-2 block">
-                            <Label value="Extras"/>
-                        </div>
-                        <Select id="idextras" required>
-                            <option>Exibir Inativos</option>
-                            <option>Exibir Performance</option>
-                        </Select>
-                    </div>
-                </form>
+            <div className="flex flex-wrap pb-3">
+                <Button className="m-1 bg-blue-400" href={route('web.cliente.index')}>Todos</Button>
+                <Button className="m-1 bg-green-600"
+                        href={route('web.cliente.index', {somenteClientesComClassificacaoA: 'true'})}>Somente clientes
+                    A</Button>
+                <Button className="m-1 bg-yellow-500"
+                        href={route('web.cliente.index', {somenteClientesComClassificacaoB: 'true'})}>Somente clientes
+                    B</Button>
+                <Button className="m-1 bg-red-600"
+                        href={route('web.cliente.index', {somenteClientesComClassificacaoC: 'true'})}>Somente clientes
+                    C</Button>
+                <Button className="m-1 bg-blue-600"
+                        href={route('web.cliente.index', {somenteClientesComClassificacaoEmProspeccao: 'true'})}>Somente
+                    clientes em prospecção</Button>
+                <Button className="m-1 bg-gray-600"
+                        href={route('web.cliente.index', {somenteClientesSemEmail: 'true'})}>Somente clientes sem
+                    email</Button>
             </div>
         </>
     )
