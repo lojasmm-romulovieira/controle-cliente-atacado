@@ -11,4 +11,11 @@ class PerfilModel extends Model
     protected $table = 'perfil';
     protected $primaryKey = 'idperfil';
     protected $fillable = ['descricao'];
+
+    public function clientes()
+    {
+        return $this->belongsToMany(ClienteModel::class, 'clienteperfilcompra', 'idperfil', 'idcliente')
+            ->withPivot('idclienteperfilcompra')
+            ->withTimestamps();
+    }
 }

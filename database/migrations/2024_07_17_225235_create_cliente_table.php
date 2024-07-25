@@ -34,6 +34,7 @@ return new class extends Migration {
             $table->boolean('enviaremail')->default(false);
             $table->boolean('possuidividapendente')->default(false);
             $table->boolean('possuicompra')->default(false);
+            $table->boolean('possuiblu')->default(false);
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });

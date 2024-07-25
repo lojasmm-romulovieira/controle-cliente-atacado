@@ -37,6 +37,7 @@ class ClienteModel extends Model
         'enviaremail',
         'possuidividapendente',
         'possuicompra',
+        'possuiblu',
         'ativo'
     ];
 
@@ -49,6 +50,13 @@ class ClienteModel extends Model
     {
         return $this->belongsToMany(RamoModel::class, 'ramocliente', 'idcliente', 'idramo')
             ->withPivot('idramocliente')
+            ->withTimestamps();
+    }
+
+    public function perfis()
+    {
+        return $this->belongsToMany(PerfilModel::class, 'clienteperfilcompra', 'idcliente', 'idperfil')
+            ->withPivot('idclienteperfilcompra')
             ->withTimestamps();
     }
 

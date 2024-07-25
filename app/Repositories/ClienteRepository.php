@@ -45,6 +45,7 @@ class ClienteRepository
         $cliente = ClienteModel::create((array)$clienteDTO);
 
         $cliente->ramos()->sync($clienteDTO->ramos);
+        $cliente->perfis()->sync($clienteDTO->perfis);
         UsuarioClienteModel::create([
             'idcliente' => $cliente->idcliente,
             'idusuario' => auth()->id()

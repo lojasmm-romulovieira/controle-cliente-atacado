@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Filters\ClienteFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ClienteRequest;
 use App\Models\CidadeModel;
 use App\Models\ClassificacaoModel;
 use App\Models\EstadoModel;
@@ -85,6 +86,22 @@ class ClienteControllerWeb extends Controller
                 ->back()
                 ->withInput()
                 ->with('error', 'Falha ao carregar página. Tente novamente.');
+        }
+    }
+
+    public function store(ClienteRequest $request): RedirectResponse
+    {
+        try {
+            $this->clienteService->create($request->validated());
+
+            return redirect()
+                ->route('clientes.index')
+                ->with('success', 'Cliente cadastrado com sucesso.');
+        } catch (Throwable $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Falha ao cadastrar cliente. Tente novamente.');
         }
     }
 }
