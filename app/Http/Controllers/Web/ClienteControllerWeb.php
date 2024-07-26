@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\DTO\ClienteDTO;
 use App\Filters\ClienteFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ClienteRequest;
 use App\Models\CidadeModel;
 use App\Models\ClassificacaoModel;
+use App\Models\ClienteModel;
 use App\Models\EstadoModel;
 use App\Models\PerfilModel;
 use App\Models\RamoModel;
@@ -29,11 +31,11 @@ class ClienteControllerWeb extends Controller
         $ramosOptions = RamoModel::selectRaw('idramo as value, descricao as label')->get();
         $situacoesUsuariosOptions = [
             [
-                'value' => 1,
+                'value' => true,
                 'label' => 'Ativo'
             ],
             [
-                'value' => 0,
+                'value' => false,
                 'label' => 'Inativo'
             ]
         ];
@@ -69,7 +71,7 @@ class ClienteControllerWeb extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Falha ao carregar página. Tente novamente.');
+                ->with('error', 'Falha ao carregar página contate o suporte.');
         }
     }
 
@@ -85,23 +87,43 @@ class ClienteControllerWeb extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Falha ao carregar página. Tente novamente.');
+                ->with('error', 'Falha ao carregar página contate o suporte.');
         }
     }
 
     public function store(ClienteRequest $request): RedirectResponse
     {
         try {
-            $this->clienteService->create($request->validated());
+            $this->clienteService->create(
+                clienteDTO::getInstanciaDTO($request->validated())
+            );
 
             return redirect()
-                ->route('clientes.index')
+                ->route('web.cliente.index')
                 ->with('success', 'Cliente cadastrado com sucesso.');
         } catch (Throwable $e) {
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Falha ao cadastrar cliente. Tente novamente.');
+                ->with('error', 'Falha ao cadastrar cliente entre em contato com o suporte.');
+        }
+    }
+
+    public function edit(ClienteModel $cliente): Response|RedirectResponse
+    {
+        try {
+            $cliente = $cliente->load('cidade.estado');
+            $filtersOptions = $this->filtersOptions();
+
+            return Inertia::render('Cliente/ClienteEdit', compact(
+                'cliente',
+                'filtersOptions'
+            ));
+        } catch (Throwable $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Falha ao carregar página contate o suporte.');
         }
     }
 }

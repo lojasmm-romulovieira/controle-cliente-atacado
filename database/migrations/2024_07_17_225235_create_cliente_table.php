@@ -18,10 +18,8 @@ return new class extends Migration {
             $table->string('razaosocial', 100);
             $table->string('nome', 100)->nullable();
             $table->date('datanascimento')->nullable();
-            $table->string('ddd', 2)->nullable();
             $table->string('telefone', 11)->nullable();
-            $table->string('fone1', 11)->nullable();
-            $table->string('fone2', 11)->nullable();
+            $table->string('telefone2', 11)->nullable();
             $table->string('celular', 11)->nullable();
             $table->string('email', 100)->nullable();
             $table->string('email2', 100)->nullable();
@@ -30,6 +28,7 @@ return new class extends Migration {
             $table->text('streetview')->nullable();
             $table->integer('numeroloja')->default(0);
             $table->integer('numerovendedor')->default(0);
+            $table->float('arealoja', 10)->nullable();
             $table->float('limitecredito', 10)->default(0.0);
             $table->boolean('enviaremail')->default(false);
             $table->boolean('possuidividapendente')->default(false);

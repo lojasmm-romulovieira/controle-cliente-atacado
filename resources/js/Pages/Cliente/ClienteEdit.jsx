@@ -1,11 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, useForm} from "@inertiajs/react";
-import {Button, Card, Label, Textarea, TextInput} from "flowbite-react";
-import Select from "@/Components/Inputs/Select.jsx";
+import {Head} from "@inertiajs/react";
 import {ClienteForm} from "@/Pages/Cliente/ClienteForm.jsx";
 
 export default function ClienteCreate(props) {
-    const {filtersOptions, auth, flash} = props;
+    const {filtersOptions, auth, flash, cliente} = props;
 
     return (
         <AuthenticatedLayout
@@ -14,19 +12,20 @@ export default function ClienteCreate(props) {
         >
             <Head title="Novo Cliente"/>
 
-            <div className="container mx-auto ">
+            <div className="container">
                 <div className="flex justify-between items-center mb-12">
                     <nav className="flex" aria-label="Breadcrumb">
                         <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                             <li className="inline-flex items-center">
-                                <span className="text-4xl text-gray-600">Novo Cliente</span>
+                                <span className="text-4xl text-gray-600">Editar Cliente</span>
                             </li>
                         </ol>
                     </nav>
                 </div>
+            </div>
 
-                <ClienteForm filtersOptions={filtersOptions}/>
-
+            <div className="grid grid-cols-2 gap-4">
+                <ClienteForm filtersOptions={filtersOptions} cliente={cliente}/>
             </div>
         </AuthenticatedLayout>
     )

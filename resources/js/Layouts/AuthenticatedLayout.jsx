@@ -1,12 +1,41 @@
-import {useState} from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
+import {useEffect, useState} from 'react';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import {Link} from '@inertiajs/react';
+import {toast, ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function Authenticated({user, header, children}) {
+export default function Authenticated({user, header, children, flashMessages}) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+
+    useEffect(() => {
+        if (flashMessages) {
+            Object.keys(flashMessages).forEach((type) => {
+                const message = flashMessages[type];
+
+                if (message) {
+                    console.log(type, message);
+                    if (type === 'success') {
+                        toast.success(message, {
+                            position: "top-center"
+                        });
+                    } else if (type === 'error') {
+                        toast.error(message, {
+                            position: "top-center"
+                        });
+                    } else if (type === 'info') {
+                        toast.info(message, {
+                            position: "top-center"
+                        })
+                    } else if (type === 'warning') {
+                        toast.warning(message, {
+                            position: "top-center"
+                        });
+                    }
+                }
+            });
+        }
+    }, [flashMessages]);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -113,6 +142,7 @@ export default function Authenticated({user, header, children}) {
             )}
 
             <main>
+                <ToastContainer/>
                 <div className={'container max-w-none px-4 sm:px-6 lg:px-8 py-8'}>
                     {children}
                 </div>

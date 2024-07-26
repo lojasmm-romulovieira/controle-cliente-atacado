@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 import TableFlowbite from "@/Components/TableFlowbite.jsx";
 import {useMemo} from "react";
 import {getColorColumnPorClassificacao} from "@/Utils/GetColorColumn.jsx";
@@ -11,7 +11,7 @@ import {getBadgeClassificacaoCliente, getBadgeSituacaoCliente} from "@/Utils/Bad
 import {TiPlus} from "react-icons/ti";
 
 export default function ClienteIndex(props) {
-    const {auth, filters, filtersOptions} = props;
+    const {auth, filters, filtersOptions, flash} = props;
     const {clientes} = props;
 
     const columns = useMemo(() => [
@@ -62,8 +62,8 @@ export default function ClienteIndex(props) {
     const rows = useMemo(() => clientes.data.map(row => ({
         ...row,
         cnpj: row.cnpj,
-        razaosocial: row.razaosocial,
-        cidade: row.cidade.nome + ' - ' + row.cidade.estado.uf,
+        razaosocial: <Link href={route('web.cliente.edit', row.idcliente)}>{row.razaosocial}</Link>,
+        cidade: row.cidade ? row.cidade.nome + ' - ' + row.cidade.estado.uf : 'N/A',
         contato: row.nome,
         fone: row.fone1,
         status: getBadgeClassificacaoCliente(row.classificacao.idclassificacao),
@@ -77,6 +77,7 @@ export default function ClienteIndex(props) {
     return (
         <AuthenticatedLayout
             user={auth.user}
+            flashMessages={flash}
         >
             <Head title="Cliente"/>
 

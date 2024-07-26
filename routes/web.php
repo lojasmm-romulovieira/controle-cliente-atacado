@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/index', [ClienteControllerWeb::class, 'index'])->name('web.cliente.index');
         Route::get('/create', [ClienteControllerWeb::class, 'create'])->name('web.cliente.create');
         Route::post('/store', [ClienteControllerWeb::class, 'store'])->name('web.cliente.store');
+        Route::get('/edit/{cliente}', [ClienteControllerWeb::class, 'edit'])->name('web.cliente.edit');
     });
 });
 
