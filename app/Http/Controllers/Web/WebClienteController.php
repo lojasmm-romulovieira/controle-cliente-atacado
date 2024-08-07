@@ -112,7 +112,15 @@ class ClienteControllerWeb extends Controller
     public function edit(ClienteModel $cliente): Response|RedirectResponse
     {
         try {
-            $cliente = $cliente->load('cidade.estado');
+            $cliente = $cliente->load([
+                'ramos:idramo,descricao',
+                'classificacao:idclassificacao,descricao',
+                'cidade:idcidade,nome,idestado',
+                'cidade.estado:idestado,nome,uf',
+                'perfis:idperfil,descricao',
+                'historicoligacao:idhistoricoligacao,idcliente,observacao,fezpedido,fezligacao,atendeuligacao,created_at'
+            ]);
+
             $filtersOptions = $this->filtersOptions();
 
             return Inertia::render('Cliente/ClienteEdit', compact(
