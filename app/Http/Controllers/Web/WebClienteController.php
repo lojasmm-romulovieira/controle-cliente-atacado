@@ -13,15 +13,16 @@ use App\Models\EstadoModel;
 use App\Models\PerfilModel;
 use App\Models\RamoModel;
 use App\Services\ClienteService;
+use App\Services\RecadoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
 
-class ClienteControllerWeb extends Controller
+class WebClienteController extends Controller
 {
-    public function __construct(private ClienteService $clienteService)
+    public function __construct(private ClienteService $clienteService, private RecadoService $recadoService)
     {
     }
 
@@ -44,6 +45,10 @@ class ClienteControllerWeb extends Controller
             ->get();
         $classificacoesOptions = ClassificacaoModel::selectRaw('idclassificacao as value, descricao as label')->get();
         $perfisOptions = PerfilModel::selectRaw('idperfil as value, descricao as label')->get();
+        $clientesOptions = ClienteModel::selectRaw('idcliente as value, razaosocial as label')->whereHas('usuariocliente', function ($query) {
+            $query->where('idusuario', auth()->id());
+        })
+            ->get();
 
         return compact(
             'estadosOptions',
@@ -51,7 +56,8 @@ class ClienteControllerWeb extends Controller
             'situacoesUsuariosOptions',
             'cidadesOptions',
             'classificacoesOptions',
-            'perfisOptions'
+            'perfisOptions',
+            'clientesOptions'
         );
     }
 
@@ -61,9 +67,11 @@ class ClienteControllerWeb extends Controller
             $clientes = $this->clienteService->getAll($filter);
             $filters = $request->all();
             $filtersOptions = $this->filtersOptions();
+            $recados = $this->recadoService->getAll();
 
             return Inertia::render('Cliente/ClienteIndex', compact(
                 'clientes',
+                'recados',
                 'filters',
                 'filtersOptions'
             ));
@@ -118,7 +126,7 @@ class ClienteControllerWeb extends Controller
                 'cidade:idcidade,nome,idestado',
                 'cidade.estado:idestado,nome,uf',
                 'perfis:idperfil,descricao',
-                'historicoligacao:idhistoricoligacao,idcliente,observacao,fezpedido,fezligacao,atendeuligacao,created_at'
+                'historicoligacao:idhistoricoligacao,idcliente,observacao,fezpedido,atendeuligacao,created_at'
             ]);
 
             $filtersOptions = $this->filtersOptions();
@@ -132,6 +140,40 @@ class ClienteControllerWeb extends Controller
                 ->back()
                 ->withInput()
                 ->with('error', 'Falha ao carregar página contate o suporte.');
+        }
+    }
+
+    public function update(ClienteRequest $request, ClienteModel $cliente): RedirectResponse
+    {
+        try {
+            $this->clienteService->update(
+                $cliente,
+                ClienteDTO::getInstanciaDTO($request->validated())
+            );
+
+            return redirect()
+                ->route('web.cliente.index')
+                ->with('success', 'Cliente atualizado com sucesso.');
+        } catch (Throwable $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Falha ao atualizar cliente entre em contato com o suporte.');
+        }
+    }
+
+    public function destroy(ClienteModel $cliente): RedirectResponse
+    {
+        try {
+            $this->clienteService->delete($cliente);
+
+            return redirect()
+                ->route('web.cliente.index')
+                ->with('success', 'Cliente excluído com sucesso.');
+        } catch (Throwable $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Falha ao excluir cliente entre em contato com o suporte.');
         }
     }
 }

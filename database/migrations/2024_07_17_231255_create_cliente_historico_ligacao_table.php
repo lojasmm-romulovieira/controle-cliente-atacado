@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('historicoligacao', function (Blueprint $table) {
             $table->id('idhistoricoligacao');
             $table->foreignId('idcliente')->constrained('cliente', 'idcliente');
-            $table->boolean('fezligacao')->default(false);
             $table->boolean('fezpedido')->default(false);
             $table->boolean('atendeuligacao')->default(false);
             $table->string('observacao', 100);

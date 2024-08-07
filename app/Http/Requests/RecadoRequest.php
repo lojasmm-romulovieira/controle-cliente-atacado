@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RecadoRequest extends FormRequest
@@ -25,5 +26,12 @@ class RecadoRequest extends FormRequest
             'datahoraretorno.required' => 'O campo datahoraretorno é obrigatório.',
             'datahoraretorno.date_format' => 'O campo datahoraretorno deve ser uma data válida no formato Y-m-d H:i:s.'
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        return $this->merge([
+            'datahoraretorno' => Carbon::parse($this->datahoraretorno)->format('Y-m-d H:i:s')
+        ]);
     }
 }

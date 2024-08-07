@@ -41,7 +41,6 @@ class ClienteController extends Controller
                 ->response()
                 ->setStatusCode(Response::HTTP_CREATED);
         } catch (Throwable $e) {
-            dd($e);
             return ResponseHelper::respondWithInternalError('Erro ao criar cliente.');
         }
     }

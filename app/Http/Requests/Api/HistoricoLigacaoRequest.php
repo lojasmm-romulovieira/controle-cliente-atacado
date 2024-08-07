@@ -10,7 +10,6 @@ class HistoricoLigacaoRequest extends FormRequest
     {
         return [
             'idcliente' => 'required|integer',
-            'fezligacao' => 'required|boolean',
             'fezpedido' => 'required|boolean',
             'atendeuligacao' => 'required|boolean',
             'observacao' => 'nullable|string|max:100',
@@ -22,8 +21,6 @@ class HistoricoLigacaoRequest extends FormRequest
         return [
             'idcliente.required' => 'O campo idcliente é obrigatório.',
             'idcliente.integer' => 'O campo idcliente deve ser um número inteiro.',
-            'fezligacao.required' => 'O campo fezligacao é obrigatório.',
-            'fezligacao.boolean' => 'O campo fezligacao deve ser um booleano.',
             'fezpedido.required' => 'O campo fezpedido é obrigatório.',
             'fezpedido.boolean' => 'O campo fezpedido deve ser um booleano.',
             'atendeuligacao.required' => 'O campo atendeuligacao é obrigatório.',
@@ -31,5 +28,12 @@ class HistoricoLigacaoRequest extends FormRequest
             'observacao.string' => 'O campo observacao deve ser uma string.',
             'observacao.max' => 'O campo observacao deve ter no máximo 100 caracteres.',
         ];
+    }
+
+    protected function prepareForValidation() {
+        $this->merge([
+            'fezpedido' => $this->fezpedido === 'true',
+            'atendeuligacao' => $this->atendeuligacao === 'true'
+        ]);
     }
 }

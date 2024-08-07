@@ -2,26 +2,21 @@ import {Button, Card, Label, Textarea, TextInput} from "flowbite-react";
 import Select from "@/Components/Inputs/Select.jsx";
 import {useForm} from "@inertiajs/react";
 import {formatarToCurrency, formatCelular, formatCnpj, formatTelefone} from "@/Utils/Format.jsx";
+import {EM_PROSPECCAO, NAO, routeNames, SIM, SIM_NAO} from "@/Pages/Cliente/Utils.jsx";
 
 export function ClienteForm(props) {
     const {filtersOptions, cliente} = props;
-
     const defaultPerfis = filtersOptions.perfisOptions.map(perfil => perfil.value.toString());
-    const defaultRamos = filtersOptions.ramosOptions.map(ramo => ramo.value.toString());
-    const EM_PROSPECCAO = 4;
-    const SIM = true;
-    const NAO = false;
-    const SIM_NAO = [
-        {label: 'Sim', value: SIM},
-        {label: 'Não', value: NAO}
-    ];
-    console.log(cliente, cliente?.enviaremail ? Boolean(cliente.enviaremail) : NAO);
+    const defaultRamos = filtersOptions.ramosOptions.map(ramo => ramo.value.toString())
 
-    let data, setData, post, errors;
-    ({data, setData, post, errors} = useForm({
+    const validateValue = (value) => {
+        return value !== null && value !== undefined;
+    }
+
+    const {data, setData, post, put, errors} = useForm({
         cnpj: cliente?.cnpj ? formatCnpj(cliente.cnpj) : '',
         razaosocial: cliente?.razaosocial ?? '',
-        ramos: cliente?.ramos ?? defaultRamos,
+        ramos: cliente?.ramos ? cliente?.ramos.map(ramo => ramo.idramo.toString()) : defaultRamos,
         idclassificacao: cliente?.idclassificacao ?? [EM_PROSPECCAO],
         nome: cliente?.nome ?? '',
         datanascimento: cliente?.datanascimento ?? '',
@@ -38,13 +33,14 @@ export function ClienteForm(props) {
         arealoja: cliente?.arealoja ?? '',
         streetview: cliente?.streetview ?? '',
         limitecredito: cliente?.limitecredito ? formatarToCurrency(cliente.limitecredito) : '',
-        enviaremail: cliente?.enviaremail ? Boolean(cliente.enviaremail) : SIM,
-        possuidividapendente: cliente?.possuidividapendente ? Boolean(cliente.possuidividapendente) : NAO,
-        possuicompra: cliente?.possuicompra ? Boolean(cliente.possuicompra) : NAO,
-        ativo: cliente?.ativo ? Boolean(cliente.ativo) : SIM,
-        perfis: cliente?.perfis ?? defaultPerfis,
-        possuiblu: cliente?.possuiblu ? Boolean(cliente.possuiblu) : NAO,
-    }));
+        enviaremail: validateValue(cliente?.enviaremail) ? [Boolean(cliente.enviaremail)] : SIM,
+        possuidividapendente: validateValue(cliente?.possuidividapendente) ? [Boolean(cliente.possuidividapendente)] : NAO,
+        possuicompra: validateValue(cliente?.possuicompra) ? [Boolean(cliente.possuicompra)] : SIM,
+        ativo: validateValue(cliente?.ativo) ? [Boolean(cliente.ativo)] : SIM,
+        perfis: cliente?.perfis ? cliente?.perfis.map(perfil => perfil.idperfil.toString()) : defaultPerfis,
+        possuiblu: validateValue(cliente?.possuiblu) ? [Boolean(cliente.possuiblu)] : NAO,
+    });
+
 
     const handleCnpjChange = (event) => {
         const {value} = event.target;
@@ -105,8 +101,11 @@ export function ClienteForm(props) {
     const handlerSubmit = (e) => {
         e.preventDefault();
 
-        console.log(data);
-        post(route('web.cliente.store'))
+        if (cliente) {
+            put(route(routeNames.clienteupdate, cliente.idcliente))
+        } else {
+            post(route(routeNames.clientestore));
+        }
     }
 
     return (
@@ -448,7 +447,7 @@ export function ClienteForm(props) {
                         />
                     </div>
                 </div>
-                <div className="gridgap-10">
+                <div className="grid gap-10">
                     <div>
                         <div className="mb-2">
                             <Label htmlFor="streetview" value="StreetView (Maps)"/>

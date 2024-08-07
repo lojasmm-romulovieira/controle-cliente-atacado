@@ -15,7 +15,6 @@ class HistoricoLigacaoResource extends JsonResource
                 'cnpj' => $this->cliente->cnpj,
                 'razaosocial' => $this->cliente->razaosocial
             ],
-            'fezligacao' => $this->fezligacao,
             'fezpedido' => $this->fezpedido,
             'atendeuligacao' => $this->atendeuligacao,
             'observacao' => $this->observacao,

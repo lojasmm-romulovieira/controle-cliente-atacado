@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTO\ClienteDTO;
 use App\Filters\ClienteFilter;
 use App\Models\ClienteModel;
+use App\Models\RecadoModel;
 use App\Models\UsuarioClienteModel;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -18,7 +19,7 @@ class ClienteRepository
                 'classificacao:idclassificacao,descricao',
                 'cidade:idcidade,nome,idestado',
                 'cidade.estado:idestado,nome,uf',
-                'historicoligacao:idhistoricoligacao,idcliente,observacao,fezpedido,fezligacao,atendeuligacao,created_at',
+                'historicoligacao:idhistoricoligacao,idcliente,observacao,fezpedido,atendeuligacao,created_at',
                 'usuariocliente:id,name,email'
             ])
             ->whereHas('usuariocliente', function ($query) {
@@ -52,5 +53,26 @@ class ClienteRepository
         ]);
 
         return $cliente;
+    }
+
+    public function update(ClienteModel $cliente, ClienteDTO $clienteDTO): ClienteModel
+    {
+        $cliente->update((array)$clienteDTO);
+
+
+        $cliente->ramos()->sync($clienteDTO->ramos);
+        $cliente->perfis()->sync($clienteDTO->perfis);
+
+        return $cliente;
+    }
+
+    public function delete(ClienteModel $cliente): void
+    {
+        $cliente->historicoligacao()->delete();
+        $cliente->usuariocliente()->detach();
+        RecadoModel::where('idcliente', $cliente->idcliente)->delete();
+        $cliente->ramos()->detach();
+        $cliente->perfis()->detach();
+        $cliente->delete();
     }
 }

@@ -11,7 +11,7 @@ class ClienteRequest extends FormRequest
         return [
             'cnpj' => ['required', 'string', 'regex:/^\d{14}$/'],
             'razaosocial' => ['required', 'string'],
-            'ramos'=> ['nullable', 'array'],
+            'ramos' => ['nullable', 'array'],
             'ramo.*.idramo' => ['required_with:ramos', 'integer'],
             'idclassificacao' => ['nullable', 'integer'],
             'perfis' => ['nullable', 'array'],
@@ -106,11 +106,11 @@ class ClienteRequest extends FormRequest
     private function sanitizeCreditLimit($creditLimit)
     {
         $sanitized = str_replace(['.', ','], ['', '.'], $creditLimit);
-        return (float) $sanitized;
+        return (float)$sanitized;
     }
 
     private function sanitizeBoolean($value): bool
     {
-        return collect($value)->first() === "true";
+        return collect($value)->first() === true || collect($value)->first() === 'true';
     }
 }

@@ -40,9 +40,19 @@ class ClienteModel extends Model
         'ativo'
     ];
 
+    protected $casts = [
+        'enviaremail' => 'boolean',
+        'possuidividapendente' => 'boolean',
+        'possuicompra' => 'boolean',
+        'possuiblu' => 'boolean',
+        'ativo' => 'boolean'
+    ];
+
     protected $appends = [
         'ult_venda',
-        'ult_lig'
+        'ult_lig',
+        'aproveitamento',
+        'nao_aproveitamento'
     ];
 
     public function ramos()
@@ -71,7 +81,8 @@ class ClienteModel extends Model
 
     public function historicoligacao()
     {
-        return $this->hasMany(HistoricoLigacaoModel::class, 'idcliente', 'idcliente');
+        return $this->hasMany(HistoricoLigacaoModel::class, 'idcliente', 'idcliente')
+            ->orderBy('created_at', 'desc');
     }
 
     public function usuariocliente()
@@ -83,13 +94,29 @@ class ClienteModel extends Model
 
     public function getUltVendaAttribute()
     {
-       return $this->historicoligacao->where('fezpedido', true)
+        return $this->historicoligacao->where('fezpedido', true)
             ->sortByDesc('created_at')->first();
     }
 
     public function getUltLigAttribute()
     {
-        return $this->historicoligacao->where('fezligacao', true)
+        return $this->historicoligacao
             ->sortByDesc('created_at')->first();
+    }
+
+    public function getAproveitamentoAttribute()
+    {
+        $totalLigacoes = $this->historicoligacao->count();
+        $ligacoesComPedido = $this->historicoligacao->where('fezpedido', true)->count();
+
+        return $totalLigacoes > 0 ? ($ligacoesComPedido / $totalLigacoes) * 100 : 0;
+    }
+
+    public function getNaoAproveitamentoAttribute()
+    {
+        $totalLigacoes = $this->historicoligacao->count();
+        $ligacoesComPedido = $this->historicoligacao->where('fezpedido', true)->count();
+
+        return 100 - $this->aproveitamento;
     }
 }

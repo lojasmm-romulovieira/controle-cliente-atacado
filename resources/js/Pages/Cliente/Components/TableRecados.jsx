@@ -3,13 +3,15 @@ import formatarDataHora from "@/Utils/FormatarDataHora.jsx";
 import {getBadgeTrueOrFalse} from "@/Utils/Badges.jsx";
 import {MdDelete} from "react-icons/md";
 import TableFlowbite from "@/Components/TableFlowbite.jsx";
+import {Inertia} from "@inertiajs/inertia";
+import {routeNames} from "@/Pages/Cliente/Utils.jsx";
 
 export default function TableRecados(props) {
     const {recados} = props;
 
     const handlerDelete = (idrecadocliente) => {
         if (confirm('Deseja realmente excluir este registro?')) {
-            console.log('idhistoricoligacao', idrecadocliente);
+            Inertia.delete(route(routeNames.recadodestroy, idrecadocliente));
         }
     }
 
@@ -21,6 +23,10 @@ export default function TableRecados(props) {
         {
             label: 'RECADO',
             accessor: 'recado',
+        },
+        {
+            label: 'Data Cadastro',
+            accessor: 'datacadastro',
         },
         {
             label: 'Retornar em',
@@ -47,6 +53,7 @@ export default function TableRecados(props) {
             recado: row.recado,
             retornarem: formatarDataHora(dataHoraRetorno),
             recadoematraso: getBadgeTrueOrFalse(emAtraso, 'bg-red-500', 'bg-green-500'),
+            datacadastro: formatarDataHora(row.created_at),
             acao: <div className="flex items-center">
                 <button className="text-red-500">
                     <MdDelete className="text-2xl" onClick={() => handlerDelete(row.idrecadocliente)}/>
@@ -56,7 +63,7 @@ export default function TableRecados(props) {
     }), [recados]);
 
     return (
-        <TableFlowbite columns={columns} rows={rows} filters={filters} title="Recados"
+        <TableFlowbite columns={columns} rows={rows} title="Recados"
                        subtitle="Lista de Recados"/>
     );
 }

@@ -10,7 +10,7 @@ class RecadoRepository
 {
     public function getAll(): Collection
     {
-        return RecadoModel::with('cliente')->get();
+        return RecadoModel::with('cliente')->orderBy('created_at', 'desc')->get();
     }
 
     public function create(RecadoDTO $recadoDTO): RecadoModel

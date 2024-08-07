@@ -14,7 +14,6 @@ export default function Authenticated({user, header, children, flashMessages}) {
                 const message = flashMessages[type];
 
                 if (message) {
-                    console.log(type, message);
                     if (type === 'success') {
                         toast.success(message, {
                             position: "top-center"

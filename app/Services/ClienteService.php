@@ -24,4 +24,14 @@ class ClienteService
     {
         return $this->clientRepository->create($cliente);
     }
+
+    public function update(ClienteModel $cliente, ClienteDTO $clienteDTO): ClienteModel
+    {
+        return $this->clientRepository->update($cliente, $clienteDTO);
+    }
+
+    public function delete(ClienteModel $cliente): void
+    {
+        $this->clientRepository->delete($cliente);
+    }
 }

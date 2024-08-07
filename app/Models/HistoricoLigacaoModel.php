@@ -13,7 +13,6 @@ class HistoricoLigacaoModel extends Model
 
     protected $fillable = [
         'idcliente',
-        'fezligacao',
         'fezpedido',
         'atendeuligacao',
         'observacao'
