@@ -11,7 +11,8 @@ class PerfilSeeder extends Seeder
     {
         PerfilModel::create(['descricao' => 'Ref/Lavad/Freezer']);
         PerfilModel::create(['descricao' => 'Fogao/Forno/Microon']);
-        PerfilModel::create(['descricao' => 'Ar Cond Ventilação']);
+        PerfilModel::create(['descricao' => 'Ar Cond']);
+        PerfilModel::create(['descricao' => 'Ventilação']);
         PerfilModel::create(['descricao' => 'Televisores']);
         PerfilModel::create(['descricao' => 'Antenas']);
         PerfilModel::create(['descricao' => 'Mini System/DVD']);

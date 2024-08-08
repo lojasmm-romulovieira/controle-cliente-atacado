@@ -109,7 +109,7 @@ class ClienteModel extends Model
         $totalLigacoes = $this->historicoligacao->count();
         $ligacoesComPedido = $this->historicoligacao->where('fezpedido', true)->count();
 
-        return $totalLigacoes > 0 ? ($ligacoesComPedido / $totalLigacoes) * 100 : 0;
+        return $totalLigacoes > 0 ? round(($ligacoesComPedido / $totalLigacoes) * 100, 2) : 0;
     }
 
     public function getNaoAproveitamentoAttribute()
@@ -117,6 +117,6 @@ class ClienteModel extends Model
         $totalLigacoes = $this->historicoligacao->count();
         $ligacoesComPedido = $this->historicoligacao->where('fezpedido', true)->count();
 
-        return 100 - $this->aproveitamento;
+        return round(100 - $this->aproveitamento, 2);
     }
 }

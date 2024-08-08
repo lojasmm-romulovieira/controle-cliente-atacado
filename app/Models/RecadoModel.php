@@ -13,6 +13,7 @@ class RecadoModel extends Model
 
     protected $fillable = [
         'idcliente',
+        'idusuario',
         'recado',
         'datahoraretorno'
     ];

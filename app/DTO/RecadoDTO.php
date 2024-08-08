@@ -6,6 +6,7 @@ class RecadoDTO
 {
     public function __construct(
         public int    $idcliente,
+        public int    $idusuario,
         public string $recado,
         public string $datahoraretorno
     )
@@ -18,6 +19,7 @@ class RecadoDTO
 
         return new RecadoDTO(
             idcliente: $data->get('idcliente'),
+            idusuario: auth()->id(),
             recado: $data->get('recado'),
             datahoraretorno: $data->get('datahoraretorno')
         );

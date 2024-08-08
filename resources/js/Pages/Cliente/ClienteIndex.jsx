@@ -15,6 +15,7 @@ import TableRecados from "@/Pages/Cliente/Components/TableRecados.jsx";
 import ModalRecadoForm from "@/Pages/Cliente/Components/ModalRecadoForm.jsx";
 import {Inertia} from "@inertiajs/inertia";
 import {routeNames} from "@/Pages/Cliente/Utils.jsx";
+import {toast} from "react-toastify";
 
 export default function ClienteIndex(props) {
     const {auth, filters, filtersOptions, flash} = props;
@@ -22,6 +23,12 @@ export default function ClienteIndex(props) {
     const [showModal, setShowModal] = useState(false);
 
     const handleShowModal = () => {
+        if (clientes.data.length === 0) {
+            toast.error('Não é possível adicionar recado sem cliente cadastrado!', {
+                position: "top-center"
+            });
+            return;
+        }
         setShowModal(true);
     }
 
@@ -140,12 +147,12 @@ export default function ClienteIndex(props) {
                 <Card>
                     <p className="text-md text-gray-600 mb-4">
                         Bem-vindo, Vendedor <span className="font-bold">{auth.user.name}</span>, que ótimo ter você
-                        aqui! Ao Sistema de Gerenciamento de Clientes.
+                        aqui!
                     </p>
 
                     <p className="text-md text-gray-600 mb-4">
-                        Bem-vindo ao Sistema de Gerenciamento de Clientes, uma plataforma eficiente e
-                        intuitiva para a gestão de clientes e recados, oferecendo funcionalidades robustas para
+                        Aqui no Sistema de Gerenciamento de Clientes, você vai encontrar uma plataforma eficiente e
+                        intuitiva para a gestão de clientes, oferecendo funcionalidades robustas para
                         controlar e monitorar suas interações e atividades comerciais. O sistema proporciona uma visão
                         centralizada de todas as mensagens e lembretes relacionados aos clientes, permitindo o
                         acompanhamento do status de cada recado. Além disso, controla o histórico de ligações e o

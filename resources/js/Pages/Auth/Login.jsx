@@ -1,14 +1,10 @@
-import { useEffect } from 'react';
-import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
+import {useEffect} from 'react';
+import {Head, useForm} from '@inertiajs/react';
+import {FcBusinessman} from "react-icons/fc";
+import InputError from "@/Components/InputError.jsx";
 
-export default function Login({ status, canResetPassword }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+export default function Login({status, canResetPassword}) {
+    const {data, setData, post, processing, errors, reset} = useForm({
         email: '',
         password: '',
         remember: false,
@@ -27,71 +23,58 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <GuestLayout>
-            <Head title="Log in" />
-
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
-                    />
-
-                    <InputError message={errors.email} className="mt-2" />
+        <section className="bg-gray-50">
+            <Head title="Login"/>
+            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                <div className="flex items-center mb-6 text-3xl font-bold text-gray-800">
+                    <FcBusinessman className="mr-3 text-4xl"/>
+                    <span className="tracking-wide">Customer Control</span>
                 </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Senha" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
+                <div
+                    className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <form className="space-y-4 md:space-y-6" onSubmit={submit}>
+                            <div>
+                                <label htmlFor="email"
+                                       className="block mb-2 text-sm font-medium text-gray-900">Email</label>
+                                <input type="email" name="email" id="email"
+                                       value={data.email}
+                                        onChange={(e) => setData('email', e.target.value)}
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                       placeholder="" required=""/>
+                                <InputError message={errors.email} className="mt-2" />
+                            </div>
+                            <div>
+                                <label htmlFor="password"
+                                       className="block mb-2 text-sm font-medium text-gray-900">Senha</label>
+                                <input type="password" name="password" id="password" placeholder=""
+                                       value={data.password}
+                                       onChange={(e) => setData('password', e.target.value)}
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                       required=""/>
+                                <InputError message={errors.password} className="mt-2" />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-start">
+                                    <div className="flex items-center h-5">
+                                        <input id="remember" aria-describedby="remember" type="checkbox"
+                                               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300"
+                                               required=""/>
+                                    </div>
+                                    <div className="ml-3 text-sm">
+                                        <label htmlFor="remember"
+                                               className="text-gray-500">Lembrar</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit"
+                                    className="w-full text-white bg-gray-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Logar
+                            </button>
+                        </form>
+                    </div>
                 </div>
-
-                <div className="block mt-4">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) => setData('remember', e.target.checked)}
-                        />
-                        <span className="ms-2 text-sm text-gray-600">Lembrar</span>
-                    </label>
-                </div>
-
-                <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Esqueceu sua senha?
-                        </Link>
-                    )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Logar
-                    </PrimaryButton>
-                </div>
-            </form>
-        </GuestLayout>
-    );
+            </div>
+        </section>
+    )
+        ;
 }

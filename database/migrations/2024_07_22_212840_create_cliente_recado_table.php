@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('recadocliente', function (Blueprint $table) {
             $table->id('idrecadocliente');
             $table->foreignId('idcliente')->constrained('cliente', 'idcliente');
+            $table->foreignId('idusuario')->constrained('users');
             $table->string('recado', 255);
             $table->dateTime('datahoraretorno');
             $table->timestamps();
