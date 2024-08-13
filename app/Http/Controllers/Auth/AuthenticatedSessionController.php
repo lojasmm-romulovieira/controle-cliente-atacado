@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user->active) {
+            return redirect()
+                ->route('login.create')
+                ->with('warning', 'Usuário esta desativado por favor entre em contato com o administrador.');
+
+        }
+
         $request->authenticate();
 
         $request->session()->regenerate();

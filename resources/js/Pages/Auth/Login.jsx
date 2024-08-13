@@ -2,8 +2,9 @@ import {useEffect} from 'react';
 import {Head, useForm} from '@inertiajs/react';
 import {FcBusinessman} from "react-icons/fc";
 import InputError from "@/Components/InputError.jsx";
+import {toast, ToastContainer} from "react-toastify";
 
-export default function Login({status, canResetPassword}) {
+export default function Login({status, canResetPassword, flash}) {
     const {data, setData, post, processing, errors, reset} = useForm({
         email: '',
         password: '',
@@ -11,10 +12,35 @@ export default function Login({status, canResetPassword}) {
     });
 
     useEffect(() => {
+        if (flash) {
+            Object.keys(flash).forEach((type) => {
+                const message = flash[type];
+
+                if (message) {
+                    if (type === 'success') {
+                        toast.success(message, {
+                            position: "top-center"
+                        });
+                    } else if (type === 'error') {
+                        toast.error(message, {
+                            position: "top-center"
+                        });
+                    } else if (type === 'info') {
+                        toast.info(message, {
+                            position: "top-center"
+                        })
+                    } else if (type === 'warning') {
+                        toast.warning(message, {
+                            position: "top-center"
+                        });
+                    }
+                }
+            });
+        }
         return () => {
             reset('password');
         };
-    }, []);
+    }, [flash]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -25,6 +51,8 @@ export default function Login({status, canResetPassword}) {
     return (
         <section className="bg-gray-50">
             <Head title="Login"/>
+            <ToastContainer/>
+
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="flex items-center mb-6 text-3xl font-bold text-gray-800">
                     <FcBusinessman className="mr-3 text-4xl"/>

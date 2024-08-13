@@ -3,7 +3,6 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default function Authenticated({user, header, children, flashMessages}) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);

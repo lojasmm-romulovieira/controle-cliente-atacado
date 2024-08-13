@@ -34,7 +34,11 @@ class ClienteFilter extends AbstractFilter
 
     public function ativos(array $situacoes): void
     {
-        $this->builder->where('ativo', $situacoes);
+        $situacoes = collect($situacoes)->map(function ($situacao) {
+            return $situacao === 'true' ? true : false;
+        });
+
+        $this->builder->whereIn('ativo', $situacoes);
     }
 
     public function ramos(array $ramos): void
