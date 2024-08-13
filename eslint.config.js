@@ -10,12 +10,11 @@ export default [
   {
     languageOptions: { globals: globals.browser },
     files: ['**/*.{js,mjs,cjs,jsx}'],
-    settings: {react: {version: 'detect'}},
+    settings: { react: { version: 'detect' } },
     rules: {
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       'no-undef': 'off'
     }
-  },
-
+  }
 ]
