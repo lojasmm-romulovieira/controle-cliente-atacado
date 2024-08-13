@@ -13,12 +13,12 @@ import {
 } from '@/Utils/Badges.jsx'
 import { TiPlus } from 'react-icons/ti'
 import { MdDelete, MdEdit } from 'react-icons/md'
-import { formatCelular } from '@/Utils/Format.jsx'
 import TableRecados from '@/Pages/Cliente/Components/TableRecados.jsx'
 import ModalRecadoForm from '@/Pages/Cliente/Components/ModalRecadoForm.jsx'
 import { Inertia } from '@inertiajs/inertia'
 import { routeNames } from '@/Pages/Cliente/Utils.jsx'
 import { toast } from 'react-toastify'
+import { maskCellphone } from '@/Utils/mask'
 
 export default function ClienteIndex({
   auth,
@@ -127,7 +127,7 @@ export default function ClienteIndex({
           ? row.cidade.nome + ' - ' + row.cidade.estado.uf
           : 'N/A',
         contato: row.nome,
-        celular: formatCelular(row.celular),
+        celular: maskCellphone(row.celular),
         condicao: getBadgeClassificacaoCliente(
           row.classificacao.idclassificacao
         ),

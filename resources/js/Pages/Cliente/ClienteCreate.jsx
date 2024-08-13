@@ -12,13 +12,16 @@ export default function ClienteCreate(props) {
   return (
     <AuthenticatedLayout user={auth.user} flashMessages={flash}>
       <Head title="Novo Cliente" />
+
       <Card>
         <div className="">
           <div className="mb-12 flex items-center justify-between">
             <nav className="flex" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li className="inline-flex items-center">
-                  <span className="text-4xl text-gray-600">Novo Cliente</span>
+                  <span className="text-2xl text-gray-600 md:text-3xl">
+                    Novo Cliente
+                  </span>
                 </li>
               </ol>
             </nav>

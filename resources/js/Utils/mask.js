@@ -1,4 +1,4 @@
-const formatCnpj = (value) => {
+export const maskCNPJ = (value) => {
   return value
     .replace(/\D/g, '')
     .replace(/^(\d{2})(\d)/, '$1.$2')
@@ -8,7 +8,14 @@ const formatCnpj = (value) => {
     .replace(/(-\d{2})\d+?$/, '$1')
 }
 
-const formatTelefone = (value) => {
+export const maskCurrency = (value) => {
+  return value
+    .replace(/\D/g, '')
+    .replace(/(\d{2})$/, ',$1')
+    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+}
+
+export const maskPhone = (value) => {
   return value
     .replace(/\D/g, '')
     .replace(/^(\d{2})(\d)/, '($1) $2')
@@ -16,19 +23,10 @@ const formatTelefone = (value) => {
     .replace(/(-\d{4})(\d)/, '$1')
 }
 
-const formatCelular = (value) => {
+export const maskCellphone = (value) => {
   return value
     .replace(/\D/g, '')
     .replace(/^(\d{2})(\d)/, '($1) $2')
     .replace(/(\d{5})(\d)/, '$1-$2')
     .replace(/(-\d{4})(\d)/, '$1')
 }
-
-const formatarToCurrency = (value) => {
-  return new Intl.NumberFormat('pt-BR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(value)
-}
-
-export { formatCnpj, formatTelefone, formatCelular, formatarToCurrency }
