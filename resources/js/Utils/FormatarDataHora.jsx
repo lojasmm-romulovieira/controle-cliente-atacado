@@ -1,12 +1,13 @@
 const formatarDataHora = (dataHora) => {
-    const data = new Date(dataHora);
-    const dataFormatada = data.toLocaleDateString('pt-BR') + ' ' + data.toLocaleTimeString('pt-BR');
+  const data = new Date(dataHora)
+  const dataFormatada =
+    data.toLocaleDateString('pt-BR') + ' ' + data.toLocaleTimeString('pt-BR')
 
-    if (dataFormatada === 'Invalid Date Invalid Date') {
-        return '';
-    }
+  if (dataFormatada === 'Invalid Date Invalid Date') {
+    return ''
+  }
 
-    return dataFormatada;
+  return dataFormatada
 }
 
-export default formatarDataHora;
+export default formatarDataHora

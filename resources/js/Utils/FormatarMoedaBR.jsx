@@ -1,5 +1,5 @@
 const formatarMoedaBR = (valor) => {
-    return valor.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
-export default formatarMoedaBR;
+export default formatarMoedaBR
