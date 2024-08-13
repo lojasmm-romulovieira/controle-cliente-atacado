@@ -25,7 +25,7 @@ class ClienteRequest extends FormRequest
             'email' => ['nullable', 'email'],
             'email2' => ['nullable', 'email'],
             'observacoes' => ['nullable', 'string'],
-            'cnpjagrupador' => ['nullable', 'string'],
+            'cnpjagrupador' => ['nullable', 'array'],
             'numeroloja' => ['nullable', 'integer'],
             'numerovendedor' => ['nullable', 'integer'],
             'arealoja' => ['nullable', 'integer'],
@@ -44,6 +44,7 @@ class ClienteRequest extends FormRequest
         return [
             'cnpj.required' => 'Necessário fornecer campo cnpj',
             'cnpj.regex' => 'Campo CNPJ inválido não atende ao formato (00.000.000/0000-00)',
+            'cnpj.string' => 'Campo cnpj inválido (string)',
             'razaosocial.required' => 'Necessário fornecer campo razão social',
             'ramos.array' => 'Campo ramos inválido (array)',
             'ramo.*.idramo.required_with' => 'Campo idramo inválido (required_with:ramos)',
@@ -55,7 +56,6 @@ class ClienteRequest extends FormRequest
             'datanascimento.date' => 'Campo data de nascimento inválido (date)',
             'datanascimento.date_format' => 'Campo data de nascimento inválido (date_format:Y-m-d)',
             'datanascimento.before' => 'Campo data de nascimento inválido (before:today)',
-            'cnpj.string' => 'Campo cnpj inválido (string)',
             'razaosocial.string' => 'Campo razaosocial inválido (string)',
             'idcidade.integer' => 'Campo idcidade inválido (integer)',
             'ddd.string' => 'Campo ddd inválido (string)',
@@ -66,7 +66,7 @@ class ClienteRequest extends FormRequest
             'email.email' => 'Campo email inválido (email)',
             'email2.email' => 'Campo email2 inválido (email)',
             'observacoes.string' => 'Campo observacoes inválido (string)',
-            'cnpjagrupador.string' => 'Campo cnpjagrupador inválido (string)',
+            'cnpjagrupador.array' => 'Campo cnpjagrupador inválido (array)',
             'numeroloja.integer' => 'Campo numeroloja inválido (integer)',
             'numerovendedor.integer' => 'Campo numerovendedor inválido (integer)',
             'arealoja.integer' => 'Campo arealoja inválido (integer)',
@@ -82,6 +82,10 @@ class ClienteRequest extends FormRequest
 
     protected function prepareForValidation()
     {
+        $cnpjAgrupador = collect($this->cnpjagrupador)->map(function ($cnpj) {
+            return ['cnpjagrupador' => $this->sanitizeNumber($cnpj)];
+        });
+
         $this->merge([
             'cnpj' => $this->sanitizeNumber($this->cnpj),
             'celular' => $this->sanitizeNumber($this->celular),
@@ -95,6 +99,7 @@ class ClienteRequest extends FormRequest
             'ativo' => $this->sanitizeBoolean($this->ativo),
             'enviaremail' => $this->sanitizeBoolean($this->enviaremail),
             'limitecredito' => $this->sanitizeCreditLimit($this->limitecredito),
+            'cnpjagrupador' => $cnpjAgrupador->toArray(),
         ]);
     }
 

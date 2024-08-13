@@ -31,7 +31,7 @@ class ClienteDTO
         public ?string $email,
         public ?string $email2,
         public ?string $observacoes,
-        public ?string $cnpjagrupador,
+        public ?array $cnpjagrupador,
         public ?string $streetview
     )
     {

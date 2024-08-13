@@ -47,6 +47,8 @@ class ClienteRepository
 
         $cliente->ramos()->sync($clienteDTO->ramos);
         $cliente->perfis()->sync($clienteDTO->perfis);
+        $cliente->cnpjagrupador()->createMany($clienteDTO->cnpjagrupador);
+
         UsuarioClienteModel::create([
             'idcliente' => $cliente->idcliente,
             'idusuario' => auth()->id()
@@ -59,9 +61,10 @@ class ClienteRepository
     {
         $cliente->update((array)$clienteDTO);
 
-
         $cliente->ramos()->sync($clienteDTO->ramos);
         $cliente->perfis()->sync($clienteDTO->perfis);
+        $cliente->cnpjagrupador()->delete();
+        $cliente->cnpjagrupador()->createMany($clienteDTO->cnpjagrupador);
 
         return $cliente;
     }

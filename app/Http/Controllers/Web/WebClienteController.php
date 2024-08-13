@@ -126,7 +126,8 @@ class WebClienteController extends Controller
                 'cidade:idcidade,nome,idestado',
                 'cidade.estado:idestado,nome,uf',
                 'perfis:idperfil,descricao',
-                'historicoligacao:idhistoricoligacao,idcliente,observacao,fezpedido,atendeuligacao,created_at'
+                'historicoligacao:idhistoricoligacao,idcliente,observacao,fezpedido,atendeuligacao,created_at',
+                'cnpjagrupador:idclientecnpjagrupador,idcliente,cnpjagrupador'
             ]);
 
             $filtersOptions = $this->filtersOptions();

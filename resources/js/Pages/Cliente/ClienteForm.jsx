@@ -3,6 +3,7 @@ import Select from "@/Components/Inputs/Select.jsx";
 import {useForm} from "@inertiajs/react";
 import {formatarToCurrency, formatCelular, formatCnpj, formatTelefone} from "@/Utils/Format.jsx";
 import {EM_PROSPECCAO, NAO, routeNames, SIM, SIM_NAO} from "@/Pages/Cliente/Utils.jsx";
+import CreatableSelect from "react-select/creatable";
 
 export function ClienteForm(props) {
     const {filtersOptions, cliente} = props;
@@ -27,7 +28,7 @@ export function ClienteForm(props) {
         email: cliente?.email ?? '',
         email2: cliente?.email2 ?? '',
         observacoes: cliente?.observacoes ?? '',
-        cnpjagrupador: cliente?.cnpjagrupador ?? '',
+        cnpjagrupador: cliente?.cnpjagrupador ? cliente.cnpjagrupador.map(cnpj => formatCnpj(cnpj.cnpjagrupador)) : [],
         numeroloja: cliente?.numeroloja ?? '',
         numerovendedor: cliente?.numerovendedor ?? '',
         arealoja: cliente?.arealoja ?? '',
@@ -40,7 +41,6 @@ export function ClienteForm(props) {
         perfis: cliente?.perfis ? cliente?.perfis.map(perfil => perfil.idperfil.toString()) : defaultPerfis,
         possuiblu: validateValue(cliente?.possuiblu) ? [Boolean(cliente.possuiblu)] : NAO,
     });
-
 
     const handleCnpjChange = (event) => {
         const {value} = event.target;
@@ -123,31 +123,18 @@ export function ClienteForm(props) {
                             id="cnpj"
                             type="text"
                             placeholder="00.000.000/0000-00"
-                            required onChange={(e) => handleCnpjChange(e)}
+                            required
+                            onChange={(e) => handleCnpjChange(e)}
                             value={data.cnpj}
                             color='failure'
                             helperText={
-                                errors.cnpj ? (
+                                errors.cnpj ?? (
                                     <span className="font-medium">{errors.cnpj}</span>
-                                ) : (
-                                    <span>Informe o CNPJ</span>
                                 )
                             }
                         />
                     </div>
-                    <div className="w-1/4">
-                        <div className="mb-2">
-                            <Label htmlFor="cnpjagrupador" value="CNPJ Agrupador"/>
-                        </div>
-                        <TextInput
-                            id="cnpjagrupador"
-                            type="text"
-                            placeholder="00.000.000/0000-00"
-                            onChange={(e) => setData('cnpjagrupador', e.target.value)}
-                            value={data.cnpjagrupador}
-                        />
-                    </div>
-                    <div className="w-2/4">
+                    <div className="w-3/4">
                         <div className="mb-2">
                             <Label htmlFor="razaosocial" value="Razão Social"/>
                         </div>
@@ -160,6 +147,24 @@ export function ClienteForm(props) {
                             required
                         />
                     </div>
+                </div>
+
+                <div>
+                    <div className="mb-2">
+                        <Label htmlFor="cnpjagrupador" value="CNPJ Agrupador"/>
+                    </div>
+                    <CreatableSelect
+                        id="cnpjagrupador"
+                        placeholder="Digite o CNPJ"
+                        isClearable
+                        onInputChange={(e) => formatCnpj(e)}
+                        onChange={(e) => {
+                            setData('cnpjagrupador', e.map(item => item.value));
+                        }}
+                        value={data.cnpjagrupador.map(cnpj => ({value: cnpj, label: cnpj}))}
+                        isMulti
+                        formatCreateLabel={(inputValue) => `Adicionar CNPJ: ${inputValue}`}
+                    />
                 </div>
 
                 <div className="grid grid-cols-4 gap-10">

@@ -27,7 +27,6 @@ class ClienteModel extends Model
         'email',
         'email2',
         'observacoes',
-        'cnpjagrupador',
         'numeroloja',
         'numerovendedor',
         'arealoja',
@@ -90,6 +89,11 @@ class ClienteModel extends Model
         return $this->belongsToMany(User::class, 'usuariocliente', 'idcliente', 'idusuario')
             ->withPivot('idusuariocliente')
             ->withTimestamps();
+    }
+
+    public function cnpjagrupador()
+    {
+        return $this->hasMany(ClienteCnpjAgrupador::class, 'idcliente', 'idcliente');
     }
 
     public function getUltVendaAttribute()
