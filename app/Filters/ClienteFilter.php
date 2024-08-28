@@ -6,6 +6,11 @@ use App\Models\ClassificacaoModel;
 
 class ClienteFilter extends AbstractFilter
 {
+    public function cnpj(int $idcliente): void
+    {
+        $this->builder->where('idcliente', $idcliente);
+    }
+
     public function idestado(string $idestado): void
     {
         $this->builder->whereHas('cidade', function ($query) use ($idestado) {

@@ -1,24 +1,27 @@
-import { Button, Label } from 'flowbite-react'
-import { useForm } from '@inertiajs/react'
-import { useEffect } from 'react'
+import {Button, Label} from 'flowbite-react'
+import {useForm} from '@inertiajs/react'
+import {useEffect} from 'react'
 import Select from '@/Components/Inputs/Select.jsx'
+import {maskCNPJ} from "@/Utils/mask.js";
 
 export function ClienteFilter(props) {
-  const { filtersOptions, filters } = props
+  const {filtersOptions, filters} = props
 
-  const { get, setData, data } = useForm({
+  const {get, setData, data} = useForm({
     ramos: [],
     estados: [],
-    ativos: []
+    ativos: [],
+    cnpj: ''
   })
 
   useEffect(() => {
     if (!Array.isArray(filters)) {
-      const { ramos, estados, ativos } = filters
+      const {ramos, estados, ativos} = filters
 
-      data.ramos = ramos ?? []
-      data.estados = estados ?? []
-      data.ativos = ativos ?? []
+      data.ramos = ramos ?? [];
+      data.estados = estados ?? [];
+      data.ativos = ativos ?? [];
+      data.cnpj = filters.cnpj ?? '';
 
       setData('ramos', ramos)
     }
@@ -35,8 +38,28 @@ export function ClienteFilter(props) {
       <div className="mb-4 flex flex-wrap">
         <form className="flex w-full flex-wrap gap-4" onSubmit={handlerSubmit}>
           <div className="flex-grow">
+            <div className="flex-grow">
+              <div className="mb-2 block">
+                <Label value="CNPJ - Razão Social"/>
+              </div>
+              <Select
+                rawOptions={filtersOptions.cnpjOptions.map(cnpj => {
+                  console.log(cnpj);
+                  return {
+                    label: maskCNPJ(cnpj.label) + ' - ' + cnpj.razaosocial,
+                    value: cnpj.value
+                  }
+                })}
+                labelKey="label"
+                valueKey="value"
+                value={data.cnpj}
+                onChange={e => setData('cnpj', e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="flex-grow">
             <div className="mb-2 block">
-              <Label value="Perfil" />
+              <Label value="Perfil"/>
             </div>
             <Select
               rawOptions={filtersOptions.ramosOptions}
@@ -49,7 +72,7 @@ export function ClienteFilter(props) {
           </div>
           <div className="flex-grow">
             <div className="mb-2 block">
-              <Label value="Estado" />
+              <Label value="Estado"/>
             </div>
             <Select
               rawOptions={filtersOptions.estadosOptions}
@@ -62,7 +85,7 @@ export function ClienteFilter(props) {
           </div>
           <div className="mb flex-grow">
             <div className="mb-2 block">
-              <Label value="Situação Usuário" />
+              <Label value="Situação Usuário"/>
             </div>
             <Select
               rawOptions={filtersOptions.situacoesUsuariosOptions}
@@ -82,49 +105,28 @@ export function ClienteFilter(props) {
         </form>
       </div>
 
-      <div className="mb-4 flex flex-wrap">
-        <a
-          href={route('web.cliente.index', { ultimos30DiasComPedido: 'true' })}
-          className="flex-grow p-2 text-center font-medium text-green-600 hover:underline"
-        >
-          01-30 dias Com Compra /
-        </a>
-        <a
-          href={route('web.cliente.index', { maior31DiasSemPedido: 'true' })}
-          className="flex-grow p-2 text-center font-medium text-yellow-500 hover:underline"
-        >
-          31-44 dias Sem Compra /
-        </a>
-        <a
-          href={route('web.cliente.index', { maior45DiasSemPedido: 'true' })}
-          className="flex-grow p-2 text-center font-medium text-orange-500 hover:underline"
-        >
-          45-60 dias Sem Compra /
-        </a>
-        <a
-          href={route('web.cliente.index', { maior61DiasSemPedido: 'true' })}
-          className="flex-grow p-2 text-center font-medium text-red-600 hover:underline"
-        >
-          +61 dias Sem Compra /
-        </a>
-        <a
-          href={route('web.cliente.index', { prospeccaoSemPedido: 'true' })}
-          className="flex-grow p-2 text-center font-medium text-blue-600 hover:underline"
-        >
-          Prospecção Sem Venda /
-        </a>
-        <a
-          href={route('web.cliente.index', { semPedidoEsteMes: 'true' })}
-          className="flex-grow p-2 text-center font-medium text-gray-600 hover:underline"
-        >
-          Sem Venda neste Mês /
-        </a>
-        <a
-          href={route('web.cliente.index', { inativosSemEmail: 'true' })}
-          className="flex-grow p-2 text-center font-medium text-gray-600 hover:underline"
-        >
-          Clientes Inativos sem E-MAIL /
-        </a>
+      <div className="flex flex-wrap mb-4">
+        <a href={route('web.cliente.index', {ultimos30DiasComPedido: 'true'})}
+           className="font-medium text-green-600 hover:underline p-2 flex-grow text-center">01-30 dias Com
+          Compra /</a>
+        <a href={route('web.cliente.index', {maior31DiasSemPedido: 'true'})}
+           className="font-medium text-yellow-500 hover:underline p-2 flex-grow text-center">31-44 dias Sem
+          Compra /</a>
+        <a href={route('web.cliente.index', {maior45DiasSemPedido: 'true'})}
+           className="font-medium text-orange-500 hover:underline p-2 flex-grow text-center">45-60 dias Sem
+          Compra /</a>
+        <a href={route('web.cliente.index', {maior61DiasSemPedido: 'true'})}
+           className="font-medium text-red-600 hover:underline p-2 flex-grow text-center">+61 dias Sem Compra
+          /</a>
+        <a href={route('web.cliente.index', {prospeccaoSemPedido: 'true'})}
+           className="font-medium text-blue-600 hover:underline p-2 flex-grow text-center">Prospecção Sem Venda
+          /</a>
+        <a href={route('web.cliente.index', {semPedidoEsteMes: 'true'})}
+           className="font-medium text-gray-600 hover:underline p-2 flex-grow text-center">Sem Venda neste Mês
+          /</a>
+        <a href={route('web.cliente.index', {inativosSemEmail: 'true'})}
+           className="font-medium text-gray-600 hover:underline p-2 flex-grow text-center">Clientes Inativos sem
+          E-MAIL /</a>
       </div>
 
       <div className="flex flex-wrap pb-3">
@@ -165,7 +167,7 @@ export function ClienteFilter(props) {
         </Button>
         <Button
           className="m-1 bg-gray-600"
-          href={route('web.cliente.index', { somenteClientesSemEmail: 'true' })}
+          href={route('web.cliente.index', {somenteClientesSemEmail: 'true'})}
         >
           Somente clientes sem email
         </Button>

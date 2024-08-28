@@ -30,6 +30,10 @@ class WebClienteController extends Controller
     {
         $estadosOptions = EstadoModel::selectRaw("idestado as value, CONCAT(uf, ' - ', nome) AS label")->get();
         $ramosOptions = RamoModel::selectRaw('idramo as value, descricao as label')->get();
+        $cnpjOptions = ClienteModel::selectRaw('idcliente as value, cnpj as label, razaosocial')->whereHas('usuariocliente', function ($query) {
+            $query->where('idusuario', auth()->id());
+        })
+            ->get();
         $situacoesUsuariosOptions = [
             [
                 'value' => true,
@@ -57,7 +61,8 @@ class WebClienteController extends Controller
             'cidadesOptions',
             'classificacoesOptions',
             'perfisOptions',
-            'clientesOptions'
+            'clientesOptions',
+            'cnpjOptions'
         );
     }
 

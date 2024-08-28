@@ -25,7 +25,7 @@ class ClienteRepository
             ->whereHas('usuariocliente', function ($query) {
                 $query->where('idusuario', auth()->id());
             })
-            ->paginate(10)
+            ->paginate(100)
             ->withQueryString();
 
         $clientes->each(function ($cliente) {

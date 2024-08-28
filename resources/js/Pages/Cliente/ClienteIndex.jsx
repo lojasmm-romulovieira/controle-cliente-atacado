@@ -1,33 +1,34 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Head, Link } from '@inertiajs/react'
+import {Head, Link} from '@inertiajs/react'
 import TableFlowbite from '@/Components/TableFlowbite.jsx'
-import React, { useMemo, useState } from 'react'
-import { getColorColumnPorClassificacao } from '@/Utils/GetColorColumn.jsx'
+import React, {useMemo, useState} from 'react'
+import {getColorColumnPorClassificacao} from '@/Utils/GetColorColumn.jsx'
 import formatarMoedaBR from '@/Utils/FormatarMoedaBR.jsx'
 import formatarDataHora from '@/Utils/FormatarDataHora.jsx'
-import { ClienteFilter } from '@/Pages/Cliente/Components/Filters/ClienteFilter.jsx'
-import { Button, Card } from 'flowbite-react'
+import {ClienteFilter} from '@/Pages/Cliente/Components/Filters/ClienteFilter.jsx'
+import {Button, Card} from 'flowbite-react'
 import {
   getBadgeClassificacaoCliente,
   getBadgeSituacaoCliente
 } from '@/Utils/Badges.jsx'
-import { TiPlus } from 'react-icons/ti'
-import { MdDelete, MdEdit } from 'react-icons/md'
+import {TiPlus} from 'react-icons/ti'
+import {MdDelete, MdEdit} from 'react-icons/md'
 import TableRecados from '@/Pages/Cliente/Components/TableRecados.jsx'
 import ModalRecadoForm from '@/Pages/Cliente/Components/ModalRecadoForm.jsx'
-import { Inertia } from '@inertiajs/inertia'
-import { routeNames } from '@/Pages/Cliente/Utils.jsx'
-import { toast } from 'react-toastify'
-import { maskCellphone } from '@/Utils/mask'
+import {Inertia} from '@inertiajs/inertia'
+import {routeNames} from '@/Pages/Cliente/Utils.jsx'
+import {toast} from 'react-toastify'
+import {IoLogoWhatsapp} from "react-icons/io";
+import {maskCellphone} from "@/Utils/mask.js";
 
 export default function ClienteIndex({
-  auth,
-  filters,
-  filtersOptions,
-  flash,
-  clientes,
-  recados
-}) {
+                                       auth,
+                                       filters,
+                                       filtersOptions,
+                                       flash,
+                                       clientes,
+                                       recados
+                                     }) {
   const [showModal, setShowModal] = useState(false)
 
   const handleShowModal = () => {
@@ -114,20 +115,20 @@ export default function ClienteIndex({
       clientes.data.map((row) => ({
         ...row,
         cnpj: row.cnpj,
-        razaosocial: (
-          <Link
-            className="flex items-center hover:underline"
-            href={route('web.cliente.edit', row.idcliente)}
-          >
-            <span className="font-bold text-gray-900">{row.razaosocial}</span>
-            <MdEdit className="ms-2 h-4 w-4" />
-          </Link>
-        ),
+        razaosocial: <Link className="flex items-center hover:underline"
+                           href={route('web.cliente.edit', row.idcliente)}>
+          <span className="text-gray-900 font-bold">{row.razaosocial}</span>
+        </Link>,
         cidade: row.cidade
           ? row.cidade.nome + ' - ' + row.cidade.estado.uf
           : 'N/A',
         contato: row.nome,
-        celular: maskCellphone(row.celular),
+        celular:
+          row.celular && (
+            <a href={`https://wa.me/${row.celular}`} target="_blank" className="flex items-center hover:underline">
+              <IoLogoWhatsapp className="text-green-500 text-2xl mr-2"/>
+              <span>{maskCellphone(row.celular)}</span>
+            </a>),
         condicao: getBadgeClassificacaoCliente(
           row.classificacao.idclassificacao
         ),
@@ -141,23 +142,21 @@ export default function ClienteIndex({
           row.classificacao.idclassificacao
         ),
         situacao: getBadgeSituacaoCliente(row.ativo),
-        acao: (
-          <div className="flex items-center">
-            <button className="text-red-500">
-              <MdDelete
-                className="text-2xl"
-                onClick={() => handlerDelete(row)}
-              />
-            </button>
-          </div>
-        )
+        acao: <div className="flex items-center">
+          <Link href={route('web.cliente.edit', row.idcliente)}>
+            <MdEdit className="text-2xl text-blue-500 me-2"/>
+          </Link>
+          <button className="text-red-500">
+            <MdDelete className="text-2xl" onClick={() => handlerDelete(row)}/>
+          </button>
+        </div>
       })),
     [clientes.data]
   )
 
   return (
     <AuthenticatedLayout user={auth.user} flashMessages={flash}>
-      <Head title="Cliente" />
+      <Head title="Cliente"/>
 
       <Card>
         <div className="flex items-center justify-between">
@@ -172,11 +171,11 @@ export default function ClienteIndex({
             className="ml-auto bg-gray-600"
             href={route('web.cliente.create')}
           >
-            <TiPlus className="me-2 h-4 w-4" />
+            <TiPlus className="me-2 h-4 w-4"/>
             Novo Cliente
           </Button>
           <Button className="ml-2 bg-gray-600" onClick={handleShowModal}>
-            <TiPlus className="me-2 h-4 w-4" />
+            <TiPlus className="me-2 h-4 w-4"/>
             Novo Recado
           </Button>
         </div>
@@ -211,11 +210,11 @@ export default function ClienteIndex({
 
         {recados.length > 0 && (
           <Card className="mb-4">
-            <TableRecados recados={recados} />
+            <TableRecados recados={recados}/>
           </Card>
         )}
         <Card className="mb-4">
-          <ClienteFilter filtersOptions={filtersOptions} filters={filters} />
+          <ClienteFilter filtersOptions={filtersOptions} filters={filters}/>
           <TableFlowbite
             columns={columns}
             pagination={clientes}
