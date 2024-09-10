@@ -49,7 +49,7 @@ class WebClienteController extends Controller
             ->get();
         $classificacoesOptions = ClassificacaoModel::selectRaw('idclassificacao as value, descricao as label')->get();
         $perfisOptions = PerfilModel::selectRaw('idperfil as value, descricao as label')->get();
-        $clientesOptions = ClienteModel::selectRaw('idcliente as value, razaosocial as label')->whereHas('usuariocliente', function ($query) {
+        $clientesOptions = ClienteModel::selectRaw('idcliente as value, CONCAT(cnpj, " - ", razaosocial) as label')->whereHas('usuariocliente', function ($query) {
             $query->where('idusuario', auth()->id());
         })
             ->get();

@@ -159,7 +159,7 @@ export default function ClienteIndex({
       <Head title="Cliente"/>
 
       <Card>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
           <nav className="flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
               <li className="inline-flex items-center">
@@ -167,17 +167,22 @@ export default function ClienteIndex({
               </li>
             </ol>
           </nav>
-          <Button
-            className="ml-auto bg-gray-600"
-            href={route('web.cliente.create')}
-          >
-            <TiPlus className="me-2 h-4 w-4"/>
-            Novo Cliente
-          </Button>
-          <Button className="ml-2 bg-gray-600" onClick={handleShowModal}>
-            <TiPlus className="me-2 h-4 w-4"/>
-            Novo Recado
-          </Button>
+          <div className="flex flex-row sm:flex-row justify-end items-center space-x-2">
+            <Button
+              className="w-full sm:w-auto bg-gray-600"
+              href={route('web.cliente.create')}
+            >
+              <TiPlus className="me-2 h-4 w-4"/>
+              Novo Cliente
+            </Button>
+            <Button
+              className="w-full sm:w-auto bg-blue-700"
+              onClick={handleShowModal}
+            >
+              <TiPlus className="me-2 h-4 w-4"/>
+              Novo Recado
+            </Button>
+          </div>
         </div>
         <Card>
           <p className="text-md mb-4 text-gray-600">

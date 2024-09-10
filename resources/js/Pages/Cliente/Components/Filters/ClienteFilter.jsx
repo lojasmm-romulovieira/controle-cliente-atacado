@@ -44,9 +44,8 @@ export function ClienteFilter(props) {
               </div>
               <Select
                 rawOptions={filtersOptions.cnpjOptions.map(cnpj => {
-                  console.log(cnpj);
                   return {
-                    label: maskCNPJ(cnpj.label) + ' - ' + cnpj.razaosocial,
+                    label: cnpj.label + ' - ' + cnpj.razaosocial,
                     value: cnpj.value
                   }
                 })}
